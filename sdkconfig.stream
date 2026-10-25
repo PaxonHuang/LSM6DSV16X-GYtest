@@ -1,0 +1,8 @@
+# Stream-mode overlay for the web panel.
+#
+# Used instead of editing sdkconfig by hand:
+#   SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.stream" idf.py reconfigure
+#
+# tools/mode.sh wraps that.
+CONFIG_RUN_MODE_STREAM=y
+CONFIG_STREAM_HZ=50

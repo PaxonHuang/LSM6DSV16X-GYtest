@@ -1,0 +1,28 @@
+# Name: lsm6dsv16x_test
+# Purpose: Bring-up / health test for LSM6DSV16X IMUs over SPI on ESP32-S3.
+
+# Pin the target here, not only in sdkconfig. tools/mode.sh regenerates
+# sdkconfig when switching modes, and without this line the build falls back to
+# the default target (esp32) and dies in the bootloader configure step with
+# "CMAKE_TOOLCHAIN_FILE 'toolchain-esp32s3' does not match ... 'esp32'".
+CONFIG_IDF_TARGET="esp32s3"
+
+# Panic handler: reset instead of hang, so a wedged unit does not wedge the test rig.
+CONFIG_ESP_SYSTEM_PANIC_PRINT_REBOOT=y
+
+# Bring out the boot banner clear of the per-unit result lines the harness greps.
+CONFIG_BOOTLOADER_LOG_LEVEL_WARN=y
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+
+# The board is an n16r8: 16 MB of flash. Leaving this at the 2 MB default makes
+# the ROM bootloader address the factory partition using the wrong layout and
+# fail with "invalid segment length 0xffffffff".
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# Main task stack: the ST driver's float paths are shallow, 4 KiB is ample.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
+
+# 1 kHz tick. At the 100 Hz default, pdMS_TO_TICKS(8) rounds to 0, so a
+# sub-10 ms poll delay is not expressible and the sampling loop spins.
+CONFIG_FREERTOS_HZ=1000

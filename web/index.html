@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LSM6DSV16X 实时位姿</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+<header class="bar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <h1>LSM6DSV16X 实时位姿</h1>
+  </div>
+
+  <div class="bar-tools">
+    <span class="link-state" id="link-state">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="link-text">连接中…</span>
+    </span>
+    <button class="btn" id="table-toggle" aria-pressed="false">数据表</button>
+    <button class="btn" id="theme-toggle" title="切换深浅色">主题</button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <section class="panel viewport" aria-label="三维姿态">
+    <div class="panel-head">
+      <h2>三维姿态</h2>
+      <div class="unit-chips" id="unit-chips" role="tablist" aria-label="选择模块"></div>
+    </div>
+    <div class="canvas-wrap" id="canvas-wrap">
+      <canvas id="scene"></canvas>
+      <p class="hint" id="scene-hint">拖动旋转视角 · 滚轮缩放</p>
+    </div>
+    <p class="caption" id="pose-source">姿态来源：等待数据…</p>
+    <p class="caption" id="events-line">在线 0/0</p>
+  </section>
+
+  <section class="panel side" aria-label="读数">
+    <h2>读数</h2>
+    <div class="tiles" id="tiles">
+      <div class="tile"><span class="tile-label">加速度模长</span><span class="tile-value" id="t-accmag">–</span><span class="tile-unit">g</span></div>
+      <div class="tile"><span class="tile-label">角速度模长</span><span class="tile-value" id="t-gyromag">–</span><span class="tile-unit">dps</span></div>
+      <div class="tile"><span class="tile-label">横滚 Roll</span><span class="tile-value" id="t-roll">–</span><span class="tile-unit">°</span></div>
+      <div class="tile"><span class="tile-label">俯仰 Pitch</span><span class="tile-value" id="t-pitch">–</span><span class="tile-unit">°</span></div>
+      <div class="tile"><span class="tile-label">偏航 Yaw</span><span class="tile-value" id="t-yaw">–</span><span class="tile-unit">°</span></div>
+      <div class="tile"><span class="tile-label">数据率</span><span class="tile-value" id="t-rate">–</span><span class="tile-unit">Hz</span></div>
+    </div>
+  </section>
+
+  <section class="panel chart-panel" aria-label="加速度随时间">
+    <div class="chart-head">
+      <h2>加速度 <span class="unit-inline">g</span></h2>
+      <div class="legend" id="legend-acc"></div>
+    </div>
+    <svg class="chart" id="chart-acc" role="img" aria-label="加速度三轴随时间变化"></svg>
+  </section>
+
+  <section class="panel chart-panel" aria-label="角速度随时间">
+    <div class="chart-head">
+      <h2>角速度 <span class="unit-inline">dps</span></h2>
+      <div class="legend" id="legend-gyro"></div>
+    </div>
+    <svg class="chart" id="chart-gyro" role="img" aria-label="角速度三轴随时间变化"></svg>
+  </section>
+
+  <section class="panel table-panel" id="table-panel" aria-label="当前读数表" hidden>
+    <h2>当前读数</h2>
+    <table id="data-table">
+      <thead>
+        <tr><th>模块</th><th>状态</th><th>ID</th><th>ax</th><th>ay</th><th>az</th><th>gx</th><th>gy</th><th>gz</th><th>四元数</th><th>err</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+</main>
+
+<div class="tooltip" id="tooltip" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

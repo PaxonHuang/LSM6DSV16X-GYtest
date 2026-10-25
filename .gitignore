@@ -1,0 +1,10 @@
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+__pycache__/
+*.pyc
+.cache/
+.remember/
+
+.playwright-mcp/

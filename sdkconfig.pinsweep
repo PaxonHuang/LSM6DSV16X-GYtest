@@ -1,0 +1,3 @@
+# Pin/parameter sweep diagnosis: direct per-CS devices, modes 0/3, 100/400/1000 kHz.
+CONFIG_RUN_MODE_DIAG=y
+CONFIG_IMU_SPI_KHZ=1000

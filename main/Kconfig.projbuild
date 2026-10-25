@@ -1,0 +1,120 @@
+menu "LSM6DSV16X test"
+
+    choice RUN_MODE
+        prompt "Firmware run mode"
+        default RUN_MODE_TEST
+        help
+            TEST runs the health suite once and prints one UNIT_RESULT line per
+            configured source (ABSENT when no 0x70 identity answers).
+            STREAM keeps sources running, publishes newline-delimited JSON for
+            the web panel and reports hot-plug add/remove events.
+
+        config RUN_MODE_TEST
+            bool "Health test (prints UNIT_RESULT)"
+
+        config RUN_MODE_STREAM
+            bool "Stream for the web panel (NDJSON)"
+
+        config RUN_MODE_DIAG
+            bool "Pin/parameter sweep diagnosis"
+    endchoice
+
+    config STREAM_HZ
+        int "Stream publish rate (Hz)"
+        range 10 100
+        default 50
+        depends on RUN_MODE_STREAM
+
+    config IMU_SPI_KHZ
+        int "SPI clock (kHz)"
+        range 10 10000
+        default 1000
+        help
+            Breadboard wiring with jumper leads does not carry the part's
+            10 MHz ceiling. The diagnostic survey answered at 1 MHz and
+            returned 0x00 from 5 MHz up; drop to 100 kHz when frames look
+            corrupted (spurious data-ready flags, inflated sample counts).
+
+    config DUMP_RAW
+        bool "Dump every sample to the log (diagnosis)"
+        default n
+        help
+            Prints one SAMPLE line per read: status, raw accel/gyro counts and
+            the converted values. Use when a health check fails on noise or
+            sample count, to tell real motion from corrupted frames.
+
+    config READ_BYTE_WISE
+        bool "Read output registers one byte at a time (diagnosis)"
+        default n
+        help
+            Deprecated in favour of BURST_LEN=1; kept so old overlays still
+            build.
+
+    config BURST_LEN
+        int "Output-block bytes per SPI transaction (diagnosis)"
+        range 1 12
+        default 12
+        help
+            Splits the 12-byte output block into transactions of this size.
+            1 reproduces byte-wise reads. Use it to find whether a failure
+            depends on transaction length.
+
+    config USE_BDU
+        bool "Enable block data update (BDU)"
+        default y
+        help
+            BDU holds the output registers until they are read. Turn it off to
+            test whether a burst read of the output block is being disturbed by
+            the BDU handshake.
+
+    config DUMP_BLOCK
+        bool "Print the first output blocks (diagnosis)"
+        default n
+        help
+            Prints 12 raw 12-byte output blocks per source at the start of the
+            static window. Cheap enough not to disturb timing.
+
+    config UNIT_COUNT
+        int "Number of sources probed"
+        range 1 11
+        default 11
+        help
+            How many chip-select positions are probed. Sources that do not
+            answer with WHO_AM_I=0x70 are reported ABSENT, so one firmware
+            image works for 1, 2, 6 and 11 modules without a rebuild.
+
+    config IMU_CS_GPIO_0
+        int "Source 0 chip select GPIO"
+        default 1
+    config IMU_CS_GPIO_1
+        int "Source 1 chip select GPIO"
+        default 2
+    config IMU_CS_GPIO_2
+        int "Source 2 chip select GPIO"
+        default 4
+    config IMU_CS_GPIO_3
+        int "Source 3 chip select GPIO"
+        default 5
+    config IMU_CS_GPIO_4
+        int "Source 4 chip select GPIO"
+        default 6
+    config IMU_CS_GPIO_5
+        int "Source 5 chip select GPIO"
+        default 7
+    config IMU_CS_GPIO_6
+        int "Source 6 chip select GPIO"
+        default 8
+    config IMU_CS_GPIO_7
+        int "Source 7 chip select GPIO"
+        default 9
+    config IMU_CS_GPIO_8
+        int "Source 8 chip select GPIO"
+        default 10
+    config IMU_CS_GPIO_9
+        int "Source 9 chip select GPIO"
+        default 14
+    config IMU_CS_GPIO_10
+        int "Source 10 chip select GPIO"
+        default 15
+
+endmenu
