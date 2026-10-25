@@ -2,7 +2,10 @@
 
 ## Where things stand
 
-- Repo: `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest` (not a git repo yet).
+- Repo: `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`;
+  GitHub: <https://github.com/PaxonHuang/LSM6DSV16X-GYtest> (public, `main`).
+  The vendored driver's original nested `.git` is kept outside the repo at
+  `/home/paxon/ESP32Projects/.vendor-git-backup/lsm6dsv16x.git`.
 - Board: ESP32-S3-DevKitC-1 N16R8 on `/dev/ttyACM0`, ESP-IDF v6.0.2.
 - Bus: SPI2, mode 3, 1 MHz, SCLK=GPIO12, MOSI=GPIO11, MISO=GPIO13.
 - CS table (11 sources): `1,2,4,5,6,7,8,9,10,14,15`.

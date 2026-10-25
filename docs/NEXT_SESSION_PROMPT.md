@@ -35,9 +35,12 @@ IMU bring-up。先完整读这两份文档，再动手：
    `--expect 11`。每阶段单独保存 `evidence/` 日志，失败就停，不跳阶段。
 4. 每阶段通过后，用 `tools/mode.sh stream` + `tools/web_panel.py --cli`
    验证逐源在线状态和热插拔显示。
-5. 全部通过后，清理临时文件、更新 `DEVELOPMENT_REPORT.md`，并按用户指示
-   处理 git（当前目录还不是 git 仓库；`components/lsm6dsv16x/.git` 是
-   vendored 驱动的嵌套仓库，提交前需决定删除还是做成 submodule）。
+5. 全部通过后，清理临时文件、更新 `DEVELOPMENT_REPORT.md`，并提交到
+   GitHub。仓库已初始化并推送：
+   `https://github.com/PaxonHuang/LSM6DSV16X-GYtest`（public，main）。
+   `components/lsm6dsv16x` 已按 vendored 普通文件提交；它原来的嵌套
+   `.git` 保存在仓库外的
+   `/home/paxon/ESP32Projects/.vendor-git-backup/lsm6dsv16x.git`。
 
 ## 硬性规则
 
