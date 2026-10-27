@@ -15,9 +15,13 @@
   preserves raw serial bytes including disconnect mid-line, and rejects matrix inconsistencies.
   Firmware stops at first read error without retrying bad blocks; thresholds unchanged.
 
-**Next field step:** once soldering is confirmed, recheck physical markings, continuity, 3V3 and exact
-by-id ownership, then make one bounded `--expect 2` run with a new raw path. Stop on failure; expand only
-through separate passing 6- and 11-source stages.
+**Latest host device check (2026-10-27):** the only serial by-id is `usb-SN0002_2K_USB_Camera_...-if04`,
+which maps to `/dev/ttyACM0` and is the Hikvision camera CDC interface. No test-board ESP32 path is present.
+Do not run the commands below against `/dev/ttyACM0`.
+
+**Next field step:** after the two-source board is physically complete, verify marking, continuity and 3V3,
+then identify its own serial by-id and make one bounded `--expect 2` run with a new raw path. Stop on failure;
+expand only through separate passing 6- and 11-source stages.
 
 ---
 
@@ -68,7 +72,7 @@ fan-out, 180×115 mm layout on a 200×150 mm board). Verify `--expect 2`, then
 extend the same layout to 6, then 11. Do not go back to the breadboard for
 multi-source work.
 
-## Historical commands — identify the board and use the current perfboard guide first
+## Historical command templates — verify a dedicated test-board by-id before use
 
 ```bash
 . ~/.espressif/v6.0.2/esp-idf/export.sh
