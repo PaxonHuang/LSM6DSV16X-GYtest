@@ -336,10 +336,16 @@ static bool unit_configure(imu_unit_t *u, test_ctx_t *t, bool verbose)
 static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
                         bool *have_acc, bool *have_gyro)
 {
+    *have_acc = false;
+    *have_gyro = false;
+    if (u->errors != 0) {
+        return false; /* sticky first-error stop; no recovery within a run */
+    }
     /* Read STATUS as a raw byte: the bit-field view is fine for control but
      * hides which exact flag was set when a frame looks corrupt. */
     uint8_t st = 0;
     if (lsm6dsv16x_read_reg(&u->ctx, LSM6DSV16X_STATUS_REG, &st, 1) != 0) {
+        u->errors++;
         return false;
     }
     s_st_hist[st]++;
@@ -355,12 +361,10 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
          * Reading it in a single transaction replaces two back-to-back bursts
          * and gives a coherent snapshot under BDU.
          *
-         * A breadboard bus can drop the frame after the first byte; that shows
-         * up as an all-zero block, never as plausible sensor data (a live
-         * accelerometer always reports roughly 1 g). Retry the block instead
-         * of feeding the zeros into the statistics. */
+         * Plausibility rejects corrupt blocks. The first bad read parks this
+         * unit for the remainder of the run; never retry it into a PASS. */
         bool valid = false;
-        for (int attempt = 0; attempt < 5 && !valid; attempt++) {
+        {
             uint8_t buf[12];
 #ifdef CONFIG_READ_BYTE_WISE
             const int chunk = 1;
@@ -379,7 +383,7 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
             }
             if (rc != 0) {
                 u->errors++;
-                continue;
+                return false;
             }
 #ifdef CONFIG_DUMP_BLOCK
             if (s_block_dump > 0) {
@@ -399,7 +403,7 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
              * accelerometer makes that detectable: at rest the vector is
              * ~1 g, so an implausible magnitude means the frame did not
              * arrive intact. 1 g is 16384 LSB at the 2 g range; accept
-             * 0.2..3 g and retry anything outside. */
+             * 0.2..3 g and reject anything outside (unchanged threshold). */
             int64_t a2 = (int64_t)ar[0] * ar[0] + (int64_t)ar[1] * ar[1] +
                          (int64_t)ar[2] * ar[2];
             valid = a2 > 3300LL * 3300 && a2 < 49000LL * 49000;
@@ -441,7 +445,13 @@ static void test_data_path(imu_unit_t *u, test_ctx_t *t)
     bool  have_acc = false, have_gyro = false;
 
     for (int i = 0; i < 40 && !(have_acc && have_gyro); i++) {
-        read_sample(u, acc, gyro, &have_acc, &have_gyro);
+        bool sample_acc = false, sample_gyro = false;
+        read_sample(u, acc, gyro, &sample_acc, &sample_gyro);
+        have_acc |= sample_acc;
+        have_gyro |= sample_gyro;
+        if (u->errors) {
+            break;
+        }
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
@@ -473,7 +483,7 @@ static void test_static_window(imu_unit_t *u, test_ctx_t *t)
 
     memset(s_st_hist, 0, sizeof(s_st_hist));
     s_block_dump = 12;
-    while (esp_timer_get_time() - start < window_us) {
+    while (u->errors == 0 && esp_timer_get_time() - start < window_us) {
         float acc[3] = { 0 }, gyro[3] = { 0 };
         bool have_acc = false, have_gyro = false;
         if (read_sample(u, acc, gyro, &have_acc, &have_gyro)) {
@@ -583,6 +593,7 @@ static void run_unit(int index)
     test_static_window(u, &t);
 
 report:;
+    check(&t, u->errors == 0, "read errors=%u (first-error stop)", (unsigned)u->errors);
     const char *detail = t.detail[0] ? t.detail : "ok";
     printf("UNIT_RESULT %d %s %d/%d raw=0x%02X %s\n", index,
            t.failed == 0 && t.passed > 0 ? "PASS" : "FAIL", t.passed,

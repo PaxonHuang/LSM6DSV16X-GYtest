@@ -1,0 +1,26 @@
+I (302) lsm6dsv16x: --- unit 0 (CS GPIO1) ---
+UNIT_RESULT 0 ABSENT 0/0 raw=0x00 no_device
+I (302) lsm6dsv16x: --- unit 1 (CS GPIO2) ---
+I (353) lsm6dsv16x:   unit 1: CTRL1=0x06 CTRL2=0x06 STATUS=0x00
+I (1465) lsm6dsv16x:   unit 1 window 1.00s acc=119 gyro=138 expected~120
+UNIT_RESULT 1 FAIL 24/25 raw=0x70 gyro x noise 5.41 dps
+I (1466) lsm6dsv16x: --- unit 2 (CS GPIO4) ---
+UNIT_RESULT 2 ABSENT 0/0 raw=0x00 no_device
+I (1473) lsm6dsv16x: --- unit 3 (CS GPIO5) ---
+UNIT_RESULT 3 ABSENT 0/0 raw=0x00 no_device
+I (1481) lsm6dsv16x: --- unit 4 (CS GPIO6) ---
+UNIT_RESULT 4 ABSENT 0/0 raw=0x00 no_device
+I (1489) lsm6dsv16x: --- unit 5 (CS GPIO7) ---
+UNIT_RESULT 5 ABSENT 0/0 raw=0x00 no_device
+I (1497) lsm6dsv16x: --- unit 6 (CS GPIO8) ---
+UNIT_RESULT 6 ABSENT 0/0 raw=0x00 no_device
+I (1506) lsm6dsv16x: --- unit 7 (CS GPIO9) ---
+UNIT_RESULT 7 ABSENT 0/0 raw=0x00 no_device
+I (1514) lsm6dsv16x: --- unit 8 (CS GPIO10) ---
+UNIT_RESULT 8 ABSENT 0/0 raw=0x00 no_device
+I (1522) lsm6dsv16x: --- unit 9 (CS GPIO14) ---
+UNIT_RESULT 9 ABSENT 0/0 raw=0x00 no_device
+I (1530) lsm6dsv16x: --- unit 10 (CS GPIO15) ---
+UNIT_RESULT 10 ABSENT 0/0 raw=0x00 no_device
+SUMMARY present=1 absent=10 count=11
+MATRIX_DONE 11

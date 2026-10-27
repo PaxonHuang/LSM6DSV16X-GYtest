@@ -1,3 +1,40 @@
+# 2026-10-26 — offline strict runner repair; soldered two-source stage ready
+
+- Actual work branch: `fix/strict-runner-20261026`, HEAD `ec600d9aab1b242ba0c81126ed68dbe762c1e3b4`.
+  Remote `main` rechecked at the same SHA. Current fixes/evidence are uncommitted;
+  no push or board flash was performed. Main branch pointer remains unchanged.
+- Operator reports two-source soldering complete and powered on 2026-10-26;
+  ready for the first bounded TEST run on `/dev/ttyACM0`.
+  No 2/6/11 hardware acceptance is claimed. Keep this board separate from EgoGlove.
+- Preserved **all 61 files / 700505 bytes** from the temporary evidence root,
+  byte-for-byte SHA256 verified: [preservation manifest](../evidence/2026-10-26-preserved/preservation-manifest.json).
+  Temporary originals and 11 older curated copies retained. Old filenames such as
+  `twosource_pass.log` are labels, not verdicts.
+- Runner now stops on flash readback error/timeout/missing/short/mismatch;
+  each readback has its own directory. No reset/capture after readback failure.
+  Serial bytes are flushed individually before line assembly, including a mid-line
+  disconnect. A new raw file is reserved and announced by default before hardware
+  activity; --raw selects an explicit new path. No prior capture is overwritten.
+  Explicit stage required: `--expect N` means exact IDs `0..N-1`; use
+  `--expect-sources 0,2` only for a predeclared noncontiguous population.
+  Unique/full source matrix, per-source PASS/checks/WHO, SUMMARY and MATRIX_DONE
+  count/order/single-run consistency are required; missing sources/summary fail.
+- Production sampling no longer retries bad blocks. First STATUS/read/plausibility
+  error parks that unit for the run and fails health checks; existing thresholds
+  retained. Accel/gyro DRDY arriving separately still accumulate in data-path check.
+- Offline tests: `python3 -m unittest discover -s tests` (24 tests, including two
+  host-compiled production-C sampling tests). ESP-IDF v6.0.2 TEST build uses
+  `build/offline-strict-test`; existing ignored root sdkconfig is DIAG and was
+  preserved. Build/test details: [offline evidence](../evidence/2026-10-26-offline/verification.json).
+  No measurement proves firmware fully excluded or a particular electrical root cause.
+
+**Next field action:** with the two-source board powered on `/dev/ttyACM0`,
+run one bounded strict TEST with `--expect 2` and a new raw path
+(see [perfboard guide](perfboard-11-imu.md)). Stop on failure; 6 and 11 follow
+only after separate passing stage evidence. Do not rerun the old breadboard probes.
+
+---
+
 # Handoff — LSM6DSV16X multi-source bring-up (2026-10-24)
 
 ## Where things stand
@@ -11,25 +48,28 @@
 - CS table (11 sources): `1,2,4,5,6,7,8,9,10,14,15`.
 
 ### Proven working
-- Single module on the GPIO2 position passed `26/26` at 1 MHz with the
-  12-byte output-block read, retry and plausibility gate.
+- Single module on the GPIO2 position historically reported `26/26` at 1 MHz with the
+  12-byte output-block read, retry and plausibility gate. This is not acceptance
+  under the new first-error-stop policy.
 - Both modules answer `WHO_AM_I=0x70` at modes 0/3 and 100/400/1000 kHz
   through a **direct one-device-per-CS** path.
 - Config readback is correct on both: `CTRL1=0x06 CTRL2=0x06 CTRL3=0x44
   CTRL6=0x04 CTRL8=0x00`.
 - CS isolation is real: forcing the non-selected CS low corrupts the read
   (expected contention); forcing it high restores valid data.
-- Firmware is **exonerated** for the current failures: direct path and the
-  production CS0-reroute path show the same behaviour; BDU off, mode 0/3 and
-  10 kHz/100 kHz/1 MHz all fail the same way.
+- Historical direct-path and CS0-reroute trials showed similar failures
+  across several settings. This narrows the observed assembly boundary, but
+  does **not** exclude all firmware/driver/timing causes; the old runner and
+  retry-based sample gate could produce false confidence.
 
 ### Current blocker
 On the breadboard, multi-byte reads of the **output block (0x22..0x2D)** are
 unreliable even with one module connected. STATUS shows data-ready, but the
 burst returns `80 00 00 …` (truncated after the first byte) or all zeros.
-Single-byte reads of the same registers return data. Measured wire resistances
-are 2–5 Ω per line and **10 Ω on the GPIO2 module's GND**, which is enough to
-make the shared bus marginal. The breadboard/jumper setup has been disturbed
+Historical single-byte reads returned data. The prior operator report records
+2–5 Ω per wire and 10 Ω on the GPIO2 module ground; the measurement setup,
+probe/contact resistance and waveforms are not independently established here.
+These are leads for assembly inspection, not a determined electrical root cause. The breadboard/jumper setup has been disturbed
 many times and is no longer a trustworthy baseline.
 
 ## Next action (plan A)
@@ -42,7 +82,7 @@ fan-out, 180×115 mm layout on a 200×150 mm board). Verify `--expect 2`, then
 extend the same layout to 6, then 11. Do not go back to the breadboard for
 multi-source work.
 
-## Commands
+## Historical commands — identify the board and use the current perfboard guide first
 
 ```bash
 . ~/.espressif/v6.0.2/esp-idf/export.sh

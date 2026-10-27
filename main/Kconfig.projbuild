@@ -31,9 +31,9 @@ menu "LSM6DSV16X test"
         default 1000
         help
             Breadboard wiring with jumper leads does not carry the part's
-            10 MHz ceiling. The diagnostic survey answered at 1 MHz and
-            returned 0x00 from 5 MHz up; drop to 100 kHz when frames look
-            corrupted (spurious data-ready flags, inflated sample counts).
+            10 MHz ceiling. Historical diagnostic observations do not qualify
+            a soldered assembly. Keep the registered 1 MHz bring-up condition;
+            a bad frame stops the run. Do not reduce clock to hide failures.
 
     config DUMP_RAW
         bool "Dump every sample to the log (diagnosis)"

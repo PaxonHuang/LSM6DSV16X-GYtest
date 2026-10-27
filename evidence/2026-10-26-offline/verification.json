@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-26",
+  "branch": "fix/strict-runner-20261026",
+  "head": "ec600d9aab1b242ba0c81126ed68dbe762c1e3b4",
+  "remote_main": "ec600d9aab1b242ba0c81126ed68dbe762c1e3b4",
+  "uncommitted": true,
+  "flashed": false,
+  "tests": {
+    "command": "python3 -m unittest discover -s tests",
+    "passed": 24,
+    "includes_host_compiled_production_C": 2
+  },
+  "build": {
+    "command": "idf.py -B build/offline-strict-test -D SDKCONFIG=build/offline-strict-test/sdkconfig -D SDKCONFIG_DEFAULTS=sdkconfig.defaults build",
+    "mode": "TEST",
+    "result": "passed",
+    "idf": "6.0.2",
+    "root_config_preserved_mode": "DIAG",
+    "warnings": "existing ESP-IDF Kconfig bool default notes; no hardware qualification"
+  },
+  "sha256": {
+    "main/main.c": "fe7658ef563a6e9e30d1a0b153143b270b7c016638e0231edaff2d9287464234",
+    "main/Kconfig.projbuild": "4774a210bf546af8b83293521816d8d677a6f80b36febe42abc537e9d1ae9814",
+    "tools/run_tests.py": "1f2355af45b3c630b1f657fa033adbf8cb5ff4488c5187801a456b22ddf3a357",
+    "tests/test_run_tests.py": "e8bf15c1b07a4015a7f141aa44753f13d518846e00ccf92aabd9e99dfd6033b7",
+    "tests/test_sampling.py": "d356785fbec3d8e7b25e39f9ffb8c22f6c17c242f096019a45bba221faa8626d",
+    "build/offline-strict-test/sdkconfig": "aeb33120927842b1e1956a79369cd616f64245fb5293178e02019d84555d2b8a",
+    "build/offline-strict-test/lsm6dsv16x_test.bin": "f771a4c98ec018e00ec3074569301569242fa46802d63a419c16f0d6bdaecdbc"
+  },
+  "raw_preservation_manifest": "../2026-10-26-preserved/preservation-manifest.json",
+  "hardware_stage": "two-source soldering incomplete; operator report",
+  "hardware_accepted": false,
+  "limitations": [
+    "no firmware-exoneration conclusion",
+    "no determined electrical root cause",
+    "no physical 2/6/11 test"
+  ],
+  "review": {
+    "independent": "one read-only fresh reviewer",
+    "initial_verdict": "request_changes",
+    "findings": [
+      "partial-line disconnect lost bytes",
+      "default capture lacked raw evidence"
+    ],
+    "resolution": "byte-at-a-time persistence and unique default raw path reserved before hardware; each regression RED to GREEN",
+    "re_review": false
+  }
+}

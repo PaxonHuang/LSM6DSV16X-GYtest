@@ -1,0 +1,41 @@
+I (200) main_task: Calling app_main()
+BUS SPI=1000kHz units=11 mode=test
+I (302) lsm6dsv16x: --- unit 0 (CS GPIO1) ---
+I (353) lsm6dsv16x:   unit 0: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 STATUS=0x00
+SAMPLE 0 593764 07 -14228 -1143 7740 0 3 -7 -0.868 -0.070 0.472 0.000 0.210 -0.490
+SAMPLE 0 689160 07 -14229 -1144 7747 0 3 -7 -0.868 -0.070 0.473 0.000 0.210 -0.490
+SAMPLE 0 740157 07 -14219 -1135 7744 0 4 -7 -0.867 -0.069 0.472 0.000 0.280 -0.490
+SAMPLE 0 765756 07 -14221 -1131 7745 0 2 -7 -0.867 -0.069 0.472 0.000 0.140 -0.490
+SAMPLE 0 876291 07 -14212 -1132 7745 0 3 -7 -0.867 -0.069 0.472 0.000 0.210 -0.490
+SAMPLE 0 885756 07 -14225 -1136 7740 0 3 -7 -0.868 -0.069 0.472 0.000 0.210 -0.490
+SAMPLE 0 1182757 07 -14224 -1132 7749 0 3 -7 -0.868 -0.069 0.473 0.000 0.210 -0.490
+SAMPLE 0 1267756 07 -14223 -1135 7731 0 3 -7 -0.868 -0.069 0.472 0.000 0.210 -0.490
+SAMPLE 0 1276757 07 -14228 -1151 7744 0 3 -7 -0.868 -0.070 0.472 0.000 0.210 -0.490
+SAMPLE 0 1327756 07 -14220 -1144 7739 0 2 -7 -0.867 -0.070 0.472 0.000 0.140 -0.490
+SAMPLE 0 1463757 07 -14219 -1135 7729 0 3 -8 -0.867 -0.069 0.471 0.000 0.210 -0.560
+I (1755) lsm6dsv16x:   unit 0 window 1.00s acc=10 gyro=10 expected~120 gx[min=0.00 max=0.00] spi=1000kHz
+UNIT_RESULT 0 FAIL 17/19 raw=0x70 only 10 accel samples (~120)
+I (1758) lsm6dsv16x: --- unit 1 (CS GPIO2) ---
+I (1813) lsm6dsv16x:   unit 1: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 STATUS=0x00
+I (3315) lsm6dsv16x:   unit 1 window 1.00s acc=0 gyro=0 expected~120 gx[min=0.00 max=0.00] spi=1000kHz
+UNIT_RESULT 1 FAIL 13/17 raw=0x70 no accelerometer sample
+I (3318) lsm6dsv16x: --- unit 2 (CS GPIO4) ---
+UNIT_RESULT 2 ABSENT 0/0 raw=0x00 no_device
+I (3326) lsm6dsv16x: --- unit 3 (CS GPIO5) ---
+UNIT_RESULT 3 ABSENT 0/0 raw=0x00 no_device
+I (3334) lsm6dsv16x: --- unit 4 (CS GPIO6) ---
+UNIT_RESULT 4 ABSENT 0/0 raw=0x00 no_device
+I (3342) lsm6dsv16x: --- unit 5 (CS GPIO7) ---
+UNIT_RESULT 5 ABSENT 0/0 raw=0x00 no_device
+I (3350) lsm6dsv16x: --- unit 6 (CS GPIO8) ---
+UNIT_RESULT 6 ABSENT 0/0 raw=0x00 no_device
+I (3358) lsm6dsv16x: --- unit 7 (CS GPIO9) ---
+UNIT_RESULT 7 ABSENT 0/0 raw=0x00 no_device
+I (3366) lsm6dsv16x: --- unit 8 (CS GPIO10) ---
+UNIT_RESULT 8 ABSENT 0/0 raw=0x00 no_device
+I (3374) lsm6dsv16x: --- unit 9 (CS GPIO14) ---
+UNIT_RESULT 9 ABSENT 0/0 raw=0x00 no_device
+I (3383) lsm6dsv16x: --- unit 10 (CS GPIO15) ---
+UNIT_RESULT 10 ABSENT 0/0 raw=0x00 no_device
+SUMMARY present=2 absent=9 count=11
+MATRIX_DONE 11

@@ -7,7 +7,7 @@ that should be present failed or when the expected population is not there.
 
 A source that does not answer WHO_AM_I=0x70 is reported ABSENT, not FAIL: the
 firmware probes all configured CS positions so one image works for 1/2/6/11
-modules. Use --expect N to assert how many sources this stage should see.
+modules. Use --expect N for sources 0..N-1, or --expect-sources for an explicit set.
 
 Usage:
     python3 tools/run_tests.py --port /dev/ttyACM0 --expect 2
@@ -16,11 +16,13 @@ Usage:
 
 from __future__ import annotations
 
+from contextlib import ExitStack
 import argparse
 import re
 import subprocess
 import sys
 import time
+import tempfile
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parent.parent
@@ -32,10 +34,10 @@ ESPTOOL_PY = str(
 )
 
 UNIT_RE = re.compile(
-    r"UNIT_RESULT (\d+) (PASS|FAIL|ABSENT) (\d+)/(\d+) raw=0x([0-9A-Fa-f]{2}) (.*)"
+    r"^UNIT_RESULT (\d+) (PASS|FAIL|ABSENT) (\d+)/(\d+) raw=0x([0-9A-Fa-f]{2}) ([^\r\n]*)\r?$", re.MULTILINE
 )
-DONE_RE = re.compile(r"MATRIX_DONE (\d+)")
-SUMMARY_RE = re.compile(r"SUMMARY present=(\d+) absent=(\d+) count=(\d+)")
+DONE_RE = re.compile(r"^MATRIX_DONE (\d+)\r?$", re.MULTILINE)
+SUMMARY_RE = re.compile(r"^SUMMARY present=(\d+) absent=(\d+) count=(\d+)\r?$", re.MULTILINE)
 
 
 def idf_env() -> None:
@@ -74,27 +76,35 @@ def verify_image(port: str | None) -> None:
     misconfiguration. Comparing the bytes tells the two apart.
     """
     if port is None:
-        return
+        sys.exit("flash readback requires an explicit port")
     want = APP_BIN.read_bytes()
-    probe = VERIFY_DIR / "flash_verify.bin"
+    if not want:
+        sys.exit("empty application image")
+    VERIFY_DIR.mkdir(parents=True, exist_ok=True)
+    probe = Path(tempfile.mkdtemp(prefix="readback-", dir=VERIFY_DIR)) / "flash_verify.bin"
+    print(f"readback evidence: {probe}")
     cmd = [
         sys.executable, ESPTOOL_PY, "--chip", "esp32s3", "-p", port,
         "--before", "default-reset", "--after", "hard-reset",
         "read-flash", hex(APP_OFFSET), str(len(want)), str(probe),
     ]
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        sys.exit(f"FLASH READBACK FAILED: {exc}")
     if r.returncode != 0:
-        print(f"WARNING: could not read the image back\n{r.stderr[-400:]}")
-        return
+        sys.exit(f"FLASH READBACK FAILED (exit {r.returncode}): {r.stderr[-400:]}")
+    if not probe.is_file():
+        sys.exit("FLASH READBACK FAILED: no output image")
     got = probe.read_bytes()
     if got == want:
         print(f"image verified: {len(want)} bytes at {hex(APP_OFFSET)} match")
         return
-    first = next((i for i, (a, b) in enumerate(zip(got, want)) if a != b), 0)
+    first = next((i for i, (a, b) in enumerate(zip(got, want)) if a != b), min(len(got), len(want)))
     sys.exit(
         f"FLASH WRITE INCOMPLETE at {hex(APP_OFFSET + first)}: the image on the "
-        "board does not match the build. Re-run the flash; if it persists, "
-        "check the USB cable and that nothing else holds the port."
+        "board does not match the build. STOP and preserve the readback; "
+        "inspect image, device identity and USB ownership before another run."
     )
 
 
@@ -112,11 +122,11 @@ def reset_board(port: str) -> None:
     ]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=90)
     if r.returncode != 0:
-        print(f"reset via esptool failed:\n{r.stdout}\n{r.stderr}")
+        sys.exit(f"reset via esptool failed:\n{r.stdout}\n{r.stderr}")
     time.sleep(0.05)  # open fast so the first UNIT_RESULT is not lost
 
 
-def read_serial(port: str, timeout_s: float) -> str:
+def read_serial(port: str, timeout_s: float, raw_path=None) -> bytes:
     try:
         import serial
     except ImportError:
@@ -126,24 +136,35 @@ def read_serial(port: str, timeout_s: float) -> str:
         )
 
     buf = []
-    deadline = time.time() + timeout_s
-    with serial.Serial(port, 115200, timeout=0.2) as ser:
+    deadline = time.monotonic() + timeout_s
+    with ExitStack() as stack:
+        raw_file = None if raw_path is None else stack.enter_context(Path(raw_path).open('ab'))
+        ser = stack.enter_context(serial.Serial(port, 115200, timeout=0.2))
         ser.setRTS(False)
         ser.setDTR(False)
-        while time.time() < deadline:
-            line = ser.readline()
-            if not line:
+        line = bytearray()
+        while time.monotonic() < deadline:
+            # pyserial.readline() can discard accumulated bytes if unplugged
+            # before newline. A one-byte read has no unpersisted prefix.
+            byte = ser.read(1)
+            if not byte:
+                continue
+            if raw_file is not None:
+                raw_file.write(byte)
+                raw_file.flush()
+            buf.append(byte)
+            line.extend(byte)
+            if byte != b"\n":
                 continue
             text = line.decode("utf-8", errors="replace").rstrip()
             print(f"  | {text}")
-            buf.append(text)
-            if DONE_RE.search(text):
+            line.clear()
+            if DONE_RE.fullmatch(text):
                 break
             if "waiting for download" in text:
-                print("\n  !! board came up in the ROM downloader. Release "
-                      "BOOT and reset.")
+                print("ROM downloader observed; STOP and preserve evidence.")
                 break
-    return "\n".join(buf)
+    return b"".join(buf)
 
 
 def parse(log: str) -> tuple[list[dict], dict | None, bool]:
@@ -170,23 +191,91 @@ def parse(log: str) -> tuple[list[dict], dict | None, bool]:
     return units, summary, bool(DONE_RE.search(log))
 
 
+def validate_log(log: str, expected: set[int]) -> list[str]:
+    """Reject incomplete/mixed matrices before any health PASS is possible."""
+    units, summary, done = parse(log)
+    problems = []
+    summaries = list(SUMMARY_RE.finditer(log))
+    endings = list(DONE_RE.finditer(log))
+    matches = list(UNIT_RE.finditer(log))
+    if len(summaries) != 1 or len(endings) != 1:
+        problems.append("exactly one SUMMARY and MATRIX_DONE required")
+    ids = [u["index"] for u in units]
+    if len(ids) != len(set(ids)):
+        problems.append("duplicate source ID")
+    if summary is not None:
+        count = summary["count"]
+        if count < 1 or count > 11 or set(ids) != set(range(count)):
+            problems.append("configured source matrix incomplete or out of range")
+        present = [u for u in units if u["state"] != "ABSENT"]
+        absent = [u for u in units if u["state"] == "ABSENT"]
+        if summary["present"] != len(present) or summary["absent"] != len(absent):
+            problems.append("SUMMARY population disagrees with UNIT_RESULT")
+        if summary["present"] + summary["absent"] != count:
+            problems.append("SUMMARY population disagrees with count")
+        if endings and int(endings[0].group(1)) != count:
+            problems.append("MATRIX_DONE disagrees with SUMMARY count")
+        if {u["index"] for u in present} != expected:
+            problems.append("present source set disagrees with expected source IDs")
+    if len(summaries) == len(endings) == 1:
+        if summaries[0].start() > endings[0].start() or any(m.start() > summaries[0].start() for m in matches):
+            problems.append("matrix records out of order")
+    for u in units:
+        if u["state"] == "PASS" and (u["total"] <= 0 or u["passed"] != u["total"] or u["who_am_i"] != 0x70):
+            problems.append(f"source {u['index']} inconsistent PASS")
+        if u["state"] == "ABSENT" and (u["passed"] != 0 or u["total"] != 0):
+            problems.append(f"source {u['index']} inconsistent ABSENT")
+        if u["state"] == "FAIL":
+            problems.append(f"source {u['index']} FAILED")
+    # A malformed sentinel cannot disappear silently during regex parsing.
+    for token, pattern in (("UNIT_RESULT", UNIT_RE), ("SUMMARY", SUMMARY_RE), ("MATRIX_DONE", DONE_RE)):
+        if log.count(token) != len(list(pattern.finditer(log))):
+            problems.append(f"malformed {token} record")
+    return problems
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", default="/dev/ttyACM0")
     ap.add_argument("--no-flash", action="store_true")
     ap.add_argument("--timeout", type=float, default=90.0)
     ap.add_argument("--expect", type=int, default=None,
-                    help="how many sources should answer (default: don't assert)")
+                    help="exact present population 0..N-1; requires explicit stage")
+    ap.add_argument("--expect-sources", help="comma-separated exact present IDs; --expect N defaults to 0..N-1")
     ap.add_argument("--raw", default="")
     args = ap.parse_args()
+    if args.expect is not None and not 1 <= args.expect <= 11:
+        ap.error('--expect must be 1..11')
+    try:
+        ids = None if args.expect_sources is None else [int(x) for x in args.expect_sources.split(',')]
+    except ValueError:
+        ap.error('--expect-sources must contain integer IDs')
+    if ids is not None and (not ids or len(ids) != len(set(ids)) or any(x < 0 or x > 10 for x in ids)):
+        ap.error('--expect-sources must contain unique IDs in 0..10')
+    if ids is None and args.expect is None:
+        ap.error('an explicit --expect or --expect-sources is required')
+    expected = set(range(args.expect)) if ids is None else set(ids)
+    if args.expect is not None and len(expected) != args.expect:
+        ap.error('--expect and --expect-sources disagree')
+    if args.timeout <= 0 or not args.timeout < float('inf'):
+        ap.error('--timeout must be finite and positive')
+    if args.raw and Path(args.raw).exists():
+        ap.error('--raw must be a new file')
 
     VERIFY_DIR.mkdir(parents=True, exist_ok=True)
+    if not args.raw:
+        args.raw = str(VERIFY_DIR / f"capture-{time.time_ns()}.raw")
+    # Reserve before any flash/reset so unusable evidence paths fail first.
+    with Path(args.raw).open('xb'):
+        pass
+    print(f"serial evidence: {args.raw}")
     idf_env()
     if not args.no_flash:
         flash(args.port)
 
     reset_board(args.port)
-    log = read_serial(args.port, args.timeout)
+    captured = read_serial(args.port, args.timeout, args.raw or None)
+    log = captured.decode('utf-8', errors='replace')
     units, summary, done = parse(log)
 
     print()
@@ -195,8 +284,6 @@ def main() -> int:
         print("            and that the firmware actually rebooted.")
         return 2
 
-    if args.raw:
-        Path(args.raw).write_text(log)
 
     print(f"{'src':>3}  {'state':7}  {'checks':>7}  {'WHO':>5}  detail")
     print("-" * 72)
@@ -206,7 +293,6 @@ def main() -> int:
               f"0x{u['who_am_i']:02X}   {u['detail']}")
 
     present = [u for u in units if u["state"] != "ABSENT"]
-    failed = [u for u in present if u["state"] == "FAIL"]
     absent = [u for u in units if u["state"] == "ABSENT"]
 
     print()
@@ -216,19 +302,7 @@ def main() -> int:
         print(f"summary: present={summary['present']} absent={summary['absent']} "
               f"count={summary['count']}")
 
-    problems = []
-    if failed:
-        problems.append(f"{len(failed)} present source(s) FAILED")
-    if args.expect is not None:
-        if len(present) < args.expect:
-            problems.append(
-                f"expected {args.expect} source(s), only {len(present)} answered")
-        elif len(present) > args.expect:
-            problems.append(
-                f"expected {args.expect} source(s), {len(present)} answered")
-    if not done:
-        problems.append("log truncated (no MATRIX_DONE)")
-
+    problems = validate_log(log, expected)
     if problems:
         print("RESULT: FAIL — " + "; ".join(problems))
         return 1

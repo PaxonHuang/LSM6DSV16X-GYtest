@@ -1,0 +1,163 @@
+........................
+----------------------------------------------------------------------
+Ran 24 tests in 0.103s
+
+OK
+serial evidence: /tmp/tmpta0a4nl2/raw.bin
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+serial evidence: /tmp/tmpz8c_ixtd/capture-1792986741919854524.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+  | �partial
+serial evidence: /tmp/tmpoid3q36l/capture-1792986741921490684.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  0  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — duplicate source ID; configured source matrix incomplete or out of range; present source set disagrees with expected source IDs
+serial evidence: /tmp/tmpikhw1afz/capture-1792986741922668040.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       25/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 0 inconsistent PASS
+serial evidence: /tmp/tmp_44hrwsw/capture-1792986741923820882.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x00   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 0 inconsistent PASS
+serial evidence: /tmp/tmpo4ur2uwa/capture-1792986741924907064.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+serial evidence: /tmp/tmpqoexmip2/capture-1792986741926082231.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=0 absent=0 count=2
+RESULT: FAIL — SUMMARY population disagrees with UNIT_RESULT; SUMMARY population disagrees with count
+serial evidence: /tmp/tmpv6on_x4k/capture-1792986741927243710.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+WARNING: MATRIX_DONE never arrived; the log may be truncated.
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; malformed MATRIX_DONE record
+serial evidence: /tmp/tmpjl5owlq2/capture-1792986741928331977.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=3
+RESULT: FAIL — configured source matrix incomplete or out of range; SUMMARY population disagrees with count
+serial evidence: /tmp/tmpux5lt24w/capture-1792986741929513171.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
+serial evidence: /tmp/tmpper93b0e/capture-1792986741930679037.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; duplicate source ID; SUMMARY population disagrees with UNIT_RESULT
+serial evidence: /tmp/tmp8h8ytqbz/raw.log
+
+NO RESULT — no UNIT_RESULT line. Check power, port, baud 115200,
+            and that the firmware actually rebooted.
+serial evidence: /tmp/tmpnr7zot5n/capture-1792986741933561153.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  1  ABSENT       0/0  0x00   no_device
+  0  PASS       26/26  0x70   ok
+  2  PASS       26/26  0x70   ok
+
+summary: present=2 absent=1 count=3
+RESULT: PASS — 2 present, 1 absent
+readback evidence: /tmp/tmpjdt1c1dd/readback-kfb0f6nw/flash_verify.bin
+serial evidence: /tmp/tmp5vfg09gc/capture-1792986741935676683.raw
+$ idf.py -b 460800 -p /dev/ttyACM0 flash
+readback evidence: /tmp/tmp5vfg09gc/readback-m3ukw1md/flash_verify.bin
+serial evidence: /tmp/tmp9lge_3q0/capture-1792986741936689122.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — matrix records out of order
+readback evidence: /tmp/tmpj63ct9vj/readback-utm918_8/flash_verify.bin
+serial evidence: /tmp/tmpmy4zcj1o/capture-1792986741938406256.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+WARNING: MATRIX_DONE never arrived; the log may be truncated.
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
+serial evidence: /tmp/tmp8gxss15z/capture-1792986741939578359.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — MATRIX_DONE disagrees with SUMMARY count
+serial evidence: /tmp/tmpqadp3_nn/capture-1792986741940651701.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  8  PASS       26/26  0x70   ok
+  9  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — configured source matrix incomplete or out of range; present source set disagrees with expected source IDs

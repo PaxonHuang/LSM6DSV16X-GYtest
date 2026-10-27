@@ -1,0 +1,80 @@
+I (195) main_task: Calling app_main()
+DIAG start units=11
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG cs=1 mode=0 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=1 mode=0 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=1 mode=0 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG cs=1 mode=3 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=1 mode=3 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=1 mode=3 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=0 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=0 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=0 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=3 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=3 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=3 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG cs=4 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_DONE

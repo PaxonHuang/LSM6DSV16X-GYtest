@@ -1,7 +1,7 @@
 # 洞洞板多源 LSM6DSV16X 原型（2 → 6 → 11 路）
 
 > 目标：把面包板+长跳线的共享 SPI 总线换成焊接原型，先做 **2 路**验证，
-> 通过后按同一布局扩到 6 路、11 路。每一步都用 `--expect N` 单独验收。
+> 通过后按同一布局扩到 6 路、11 路。每一步都用 `--expect N`（精确源集合0..N-1）单独验收，首次失败停车。
 >
 > **接线图（精确到排针序号与孔位坐标）：**
 > [`perfboard-11-imu-wiring.html`](perfboard-11-imu-wiring.html)
@@ -117,15 +117,22 @@
 
 ```bash
 . ~/.espressif/v6.0.2/esp-idf/export.sh
+# 先设置已核实这块独立板的by-id路径：export IMU_PORT=/dev/serial/by-id/...
+fuser "$IMU_PORT"  # 确认没有reader
 tools/mode.sh test
 tools/build.sh
-python3 tools/run_tests.py --port /dev/ttyACM0 --expect 2
+python3 tools/run_tests.py --port "$IMU_PORT" --expect 2 --expect-sources 0,1 --raw /path/to/new-stage2.raw
 ```
 
 判定：
 - 每个应存在的源 `PASS` 且 `WHO_AM_I=0x70`；
-- `SUMMARY present=N absent=...`；
-- 进程退出码 0。
+- 每个配置编号唯一、完整，应缺源明确ABSENT；`SUMMARY`与`MATRIX_DONE`计数、顺序、单次运行一致；
+- 进程退出码0、flash回读逐字节一致；raw、readback、编译镜像/配置哈希及装配/测量记录同阶段保留。
+
+2路焊接截至2026-10-26尚未完成（用户报告）。先做断电检查，再记录本地3V3、
+板身份和源/CS映射；只对这块独立ESP32测试板运行，不混刷EgoGlove采集板。
+6路用`--expect 6`/源0..5，11路用`--expect 11`/源0..10。失败保存证据并停车，
+不能自动重试、降速、放宽阈值或把旧26/26作为新判据通过。
 
 单源/多源通过后，再验证流式面板：
 

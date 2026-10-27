@@ -1,0 +1,29 @@
+I (184) main_task: Calling app_main()
+BUS SPI=1000kHz units=11 mode=test
+I (286) lsm6dsv16x: --- unit 0 (CS GPIO1) ---
+I (337) lsm6dsv16x:   unit 0: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 CTRL6=0x04 CTRL8=0x00 STATUS=0x00
+I (1469) lsm6dsv16x:   unit 0 window 1.00s acc=53 gyro=53 expected~120 gx[min=0.00 max=0.42] spi=1000kHz
+I (1469) lsm6dsv16x:   unit 0 status hist: 04:406 07:595
+UNIT_RESULT 0 FAIL 18/20 raw=0x70 only 53 accel samples (~120)
+I (1478) lsm6dsv16x: --- unit 1 (CS GPIO2) ---
+UNIT_RESULT 1 ABSENT 0/0 raw=0x00 no_device
+I (1486) lsm6dsv16x: --- unit 2 (CS GPIO4) ---
+UNIT_RESULT 2 ABSENT 0/0 raw=0x00 no_device
+I (1494) lsm6dsv16x: --- unit 3 (CS GPIO5) ---
+UNIT_RESULT 3 ABSENT 0/0 raw=0x00 no_device
+I (1502) lsm6dsv16x: --- unit 4 (CS GPIO6) ---
+UNIT_RESULT 4 ABSENT 0/0 raw=0x00 no_device
+I (1510) lsm6dsv16x: --- unit 5 (CS GPIO7) ---
+UNIT_RESULT 5 ABSENT 0/0 raw=0x00 no_device
+I (1518) lsm6dsv16x: --- unit 6 (CS GPIO8) ---
+UNIT_RESULT 6 ABSENT 0/0 raw=0x00 no_device
+I (1526) lsm6dsv16x: --- unit 7 (CS GPIO9) ---
+UNIT_RESULT 7 ABSENT 0/0 raw=0x00 no_device
+I (1534) lsm6dsv16x: --- unit 8 (CS GPIO10) ---
+UNIT_RESULT 8 ABSENT 0/0 raw=0x00 no_device
+I (1542) lsm6dsv16x: --- unit 9 (CS GPIO14) ---
+UNIT_RESULT 9 ABSENT 0/0 raw=0x00 no_device
+I (1551) lsm6dsv16x: --- unit 10 (CS GPIO15) ---
+UNIT_RESULT 10 ABSENT 0/0 raw=0x00 no_device
+SUMMARY present=1 absent=10 count=11
+MATRIX_DONE 11

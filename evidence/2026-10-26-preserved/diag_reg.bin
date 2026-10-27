@@ -1,0 +1,574 @@
+I (173) main_task: Calling app_main()
+DIAG start units=11
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=1 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=2 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=4 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=5 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=6 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_SHORT cs=7 <-> cs=15 follows (0/1)
+DIAG_PIN cs=7 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=8 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=9 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=10 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=14 drive_low_read=0 drive_high_read=1 OK
+DIAG_PIN cs=15 drive_low_read=0 drive_high_read=1 OK
+DIAG cs=1 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=1 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=1 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=1 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=1 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=1 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=1 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=1 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=2 mode=0 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=0 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=0 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG_MODEBLK cs=2 mode=0 80 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=2 mode=3 khz=100 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=3 khz=400 rc=0 ids=70,70,70,70,70
+DIAG cs=2 mode=3 khz=1000 rc=0 ids=70,70,70,70,70
+DIAG_MODEBLK cs=2 mode=3 80 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=4 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=4 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=4 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=4 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=4 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=5 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=5 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=5 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=5 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=5 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=6 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=6 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=6 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=6 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=6 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=7 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=7 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=7 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=7 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=7 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=8 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=8 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=8 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=8 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=8 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=9 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=9 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=9 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=9 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=9 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=10 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=10 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=10 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=10 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=10 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=14 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=14 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=14 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=14 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=14 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=15 mode=0 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=0 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=0 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=15 mode=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG cs=15 mode=3 khz=100 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=3 khz=400 rc=0 ids=00,00,00,00,00
+DIAG cs=15 mode=3 khz=1000 rc=0 ids=00,00,00,00,00
+DIAG_MODEBLK cs=15 mode=3 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=1 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=1 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=1 a=00 v=00
+DIAG_REG cs=1 a=01 v=00
+DIAG_REG cs=1 a=02 v=00
+DIAG_REG cs=1 a=03 v=00
+DIAG_BYTE cs=1 a=22 v=00
+DIAG_BYTE cs=1 a=23 v=00
+DIAG_BYTE cs=1 a=24 v=00
+DIAG_BYTE cs=1 a=25 v=00
+DIAG_BYTE cs=1 a=26 v=00
+DIAG_BYTE cs=1 a=27 v=00
+DIAG_BYTE cs=1 a=28 v=00
+DIAG_BYTE cs=1 a=29 v=00
+DIAG_BYTE cs=1 a=2A v=00
+DIAG_BYTE cs=1 a=2B v=00
+DIAG_BYTE cs=1 a=2C v=00
+DIAG_BYTE cs=1 a=2D v=00
+DIAG_G6 cs=1 00 00 00 00 00 00
+DIAG_A6 cs=1 00 00 00 00 00 00
+DIAG_21 cs=1 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=20 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=21 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=22 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=23 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=24 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_START a=25 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=1 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=1 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=1 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_ISO other_cs=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=1 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=1 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=1 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=1 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=1 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=1 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=1 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=1 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=2 t=0 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+DIAG_DATA cs=2 t=0 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=2 a=00 v=00
+DIAG_REG cs=2 a=01 v=00
+DIAG_REG cs=2 a=02 v=00
+DIAG_REG cs=2 a=03 v=00
+DIAG_BYTE cs=2 a=22 v=80
+DIAG_BYTE cs=2 a=23 v=FF
+DIAG_BYTE cs=2 a=24 v=00
+DIAG_BYTE cs=2 a=25 v=00
+DIAG_BYTE cs=2 a=26 v=05
+DIAG_BYTE cs=2 a=27 v=00
+DIAG_BYTE cs=2 a=28 v=80
+DIAG_BYTE cs=2 a=29 v=C2
+DIAG_BYTE cs=2 a=2A v=80
+DIAG_BYTE cs=2 a=2B v=07
+DIAG_BYTE cs=2 a=2C v=80
+DIAG_BYTE cs=2 a=2D v=10
+DIAG_G6 cs=2 80 00 00 00 00 00
+DIAG_A6 cs=2 80 00 00 00 00 00
+DIAG_21 cs=2 FF FD FF 02 00 04 00 FB C2 C0 07 F8
+DIAG_BLOCK cs=2 t=1 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+DIAG_DATA cs=2 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=2 t=2 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+DIAG_DATA cs=2 t=2 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=2 t=3 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+DIAG_DATA cs=2 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=2 t=4 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+DIAG_DATA cs=2 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=4 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=4 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=4 a=00 v=00
+DIAG_REG cs=4 a=01 v=00
+DIAG_REG cs=4 a=02 v=00
+DIAG_REG cs=4 a=03 v=00
+DIAG_BYTE cs=4 a=22 v=00
+DIAG_BYTE cs=4 a=23 v=00
+DIAG_BYTE cs=4 a=24 v=00
+DIAG_BYTE cs=4 a=25 v=00
+DIAG_BYTE cs=4 a=26 v=00
+DIAG_BYTE cs=4 a=27 v=00
+DIAG_BYTE cs=4 a=28 v=00
+DIAG_BYTE cs=4 a=29 v=00
+DIAG_BYTE cs=4 a=2A v=00
+DIAG_BYTE cs=4 a=2B v=00
+DIAG_BYTE cs=4 a=2C v=00
+DIAG_BYTE cs=4 a=2D v=00
+DIAG_G6 cs=4 00 00 00 00 00 00
+DIAG_A6 cs=4 00 00 00 00 00 00
+DIAG_21 cs=4 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=4 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=4 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=4 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=4 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=4 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=4 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=4 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=4 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=5 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=5 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=5 a=00 v=00
+DIAG_REG cs=5 a=01 v=00
+DIAG_REG cs=5 a=02 v=00
+DIAG_REG cs=5 a=03 v=00
+DIAG_BYTE cs=5 a=22 v=00
+DIAG_BYTE cs=5 a=23 v=00
+DIAG_BYTE cs=5 a=24 v=00
+DIAG_BYTE cs=5 a=25 v=00
+DIAG_BYTE cs=5 a=26 v=00
+DIAG_BYTE cs=5 a=27 v=00
+DIAG_BYTE cs=5 a=28 v=00
+DIAG_BYTE cs=5 a=29 v=00
+DIAG_BYTE cs=5 a=2A v=00
+DIAG_BYTE cs=5 a=2B v=00
+DIAG_BYTE cs=5 a=2C v=00
+DIAG_BYTE cs=5 a=2D v=00
+DIAG_G6 cs=5 00 00 00 00 00 00
+DIAG_A6 cs=5 00 00 00 00 00 00
+DIAG_21 cs=5 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=5 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=5 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=5 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=5 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=5 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=5 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=5 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=5 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=6 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=6 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=6 a=00 v=00
+DIAG_REG cs=6 a=01 v=00
+DIAG_REG cs=6 a=02 v=00
+DIAG_REG cs=6 a=03 v=00
+DIAG_BYTE cs=6 a=22 v=00
+DIAG_BYTE cs=6 a=23 v=00
+DIAG_BYTE cs=6 a=24 v=00
+DIAG_BYTE cs=6 a=25 v=00
+DIAG_BYTE cs=6 a=26 v=00
+DIAG_BYTE cs=6 a=27 v=00
+DIAG_BYTE cs=6 a=28 v=00
+DIAG_BYTE cs=6 a=29 v=00
+DIAG_BYTE cs=6 a=2A v=00
+DIAG_BYTE cs=6 a=2B v=00
+DIAG_BYTE cs=6 a=2C v=00
+DIAG_BYTE cs=6 a=2D v=00
+DIAG_G6 cs=6 00 00 00 00 00 00
+DIAG_A6 cs=6 00 00 00 00 00 00
+DIAG_21 cs=6 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=6 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=6 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=6 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=6 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=6 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=6 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=6 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=6 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=7 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=7 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=7 a=00 v=00
+DIAG_REG cs=7 a=01 v=00
+DIAG_REG cs=7 a=02 v=00
+DIAG_REG cs=7 a=03 v=00
+DIAG_BYTE cs=7 a=22 v=00
+DIAG_BYTE cs=7 a=23 v=00
+DIAG_BYTE cs=7 a=24 v=00
+DIAG_BYTE cs=7 a=25 v=00
+DIAG_BYTE cs=7 a=26 v=00
+DIAG_BYTE cs=7 a=27 v=00
+DIAG_BYTE cs=7 a=28 v=00
+DIAG_BYTE cs=7 a=29 v=00
+DIAG_BYTE cs=7 a=2A v=00
+DIAG_BYTE cs=7 a=2B v=00
+DIAG_BYTE cs=7 a=2C v=00
+DIAG_BYTE cs=7 a=2D v=00
+DIAG_G6 cs=7 00 00 00 00 00 00
+DIAG_A6 cs=7 00 00 00 00 00 00
+DIAG_21 cs=7 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=7 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=7 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=7 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=7 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=7 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=7 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=7 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=7 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=8 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=8 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=8 a=00 v=00
+DIAG_REG cs=8 a=01 v=00
+DIAG_REG cs=8 a=02 v=00
+DIAG_REG cs=8 a=03 v=00
+DIAG_BYTE cs=8 a=22 v=00
+DIAG_BYTE cs=8 a=23 v=00
+DIAG_BYTE cs=8 a=24 v=00
+DIAG_BYTE cs=8 a=25 v=00
+DIAG_BYTE cs=8 a=26 v=00
+DIAG_BYTE cs=8 a=27 v=00
+DIAG_BYTE cs=8 a=28 v=00
+DIAG_BYTE cs=8 a=29 v=00
+DIAG_BYTE cs=8 a=2A v=00
+DIAG_BYTE cs=8 a=2B v=00
+DIAG_BYTE cs=8 a=2C v=00
+DIAG_BYTE cs=8 a=2D v=00
+DIAG_G6 cs=8 00 00 00 00 00 00
+DIAG_A6 cs=8 00 00 00 00 00 00
+DIAG_21 cs=8 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=8 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=8 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=8 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=8 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=8 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=8 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=8 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=8 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=9 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=9 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=9 a=00 v=00
+DIAG_REG cs=9 a=01 v=00
+DIAG_REG cs=9 a=02 v=00
+DIAG_REG cs=9 a=03 v=00
+DIAG_BYTE cs=9 a=22 v=00
+DIAG_BYTE cs=9 a=23 v=00
+DIAG_BYTE cs=9 a=24 v=00
+DIAG_BYTE cs=9 a=25 v=00
+DIAG_BYTE cs=9 a=26 v=00
+DIAG_BYTE cs=9 a=27 v=00
+DIAG_BYTE cs=9 a=28 v=00
+DIAG_BYTE cs=9 a=29 v=00
+DIAG_BYTE cs=9 a=2A v=00
+DIAG_BYTE cs=9 a=2B v=00
+DIAG_BYTE cs=9 a=2C v=00
+DIAG_BYTE cs=9 a=2D v=00
+DIAG_G6 cs=9 00 00 00 00 00 00
+DIAG_A6 cs=9 00 00 00 00 00 00
+DIAG_21 cs=9 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=9 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=9 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=9 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=9 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=9 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=9 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=9 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=9 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=10 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=10 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=10 a=00 v=00
+DIAG_REG cs=10 a=01 v=00
+DIAG_REG cs=10 a=02 v=00
+DIAG_REG cs=10 a=03 v=00
+DIAG_BYTE cs=10 a=22 v=00
+DIAG_BYTE cs=10 a=23 v=00
+DIAG_BYTE cs=10 a=24 v=00
+DIAG_BYTE cs=10 a=25 v=00
+DIAG_BYTE cs=10 a=26 v=00
+DIAG_BYTE cs=10 a=27 v=00
+DIAG_BYTE cs=10 a=28 v=00
+DIAG_BYTE cs=10 a=29 v=00
+DIAG_BYTE cs=10 a=2A v=00
+DIAG_BYTE cs=10 a=2B v=00
+DIAG_BYTE cs=10 a=2C v=00
+DIAG_BYTE cs=10 a=2D v=00
+DIAG_G6 cs=10 00 00 00 00 00 00
+DIAG_A6 cs=10 00 00 00 00 00 00
+DIAG_21 cs=10 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=10 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=10 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=10 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=10 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=10 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=10 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=10 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=10 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=14 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=14 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=14 a=00 v=00
+DIAG_REG cs=14 a=01 v=00
+DIAG_REG cs=14 a=02 v=00
+DIAG_REG cs=14 a=03 v=00
+DIAG_BYTE cs=14 a=22 v=00
+DIAG_BYTE cs=14 a=23 v=00
+DIAG_BYTE cs=14 a=24 v=00
+DIAG_BYTE cs=14 a=25 v=00
+DIAG_BYTE cs=14 a=26 v=00
+DIAG_BYTE cs=14 a=27 v=00
+DIAG_BYTE cs=14 a=28 v=00
+DIAG_BYTE cs=14 a=29 v=00
+DIAG_BYTE cs=14 a=2A v=00
+DIAG_BYTE cs=14 a=2B v=00
+DIAG_BYTE cs=14 a=2C v=00
+DIAG_BYTE cs=14 a=2D v=00
+DIAG_G6 cs=14 00 00 00 00 00 00
+DIAG_A6 cs=14 00 00 00 00 00 00
+DIAG_21 cs=14 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=14 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=14 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=14 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=14 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=14 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=14 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=14 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=14 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=15 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=15 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_REG cs=15 a=00 v=00
+DIAG_REG cs=15 a=01 v=00
+DIAG_REG cs=15 a=02 v=00
+DIAG_REG cs=15 a=03 v=00
+DIAG_BYTE cs=15 a=22 v=00
+DIAG_BYTE cs=15 a=23 v=00
+DIAG_BYTE cs=15 a=24 v=00
+DIAG_BYTE cs=15 a=25 v=00
+DIAG_BYTE cs=15 a=26 v=00
+DIAG_BYTE cs=15 a=27 v=00
+DIAG_BYTE cs=15 a=28 v=00
+DIAG_BYTE cs=15 a=29 v=00
+DIAG_BYTE cs=15 a=2A v=00
+DIAG_BYTE cs=15 a=2B v=00
+DIAG_BYTE cs=15 a=2C v=00
+DIAG_BYTE cs=15 a=2D v=00
+DIAG_G6 cs=15 00 00 00 00 00 00
+DIAG_A6 cs=15 00 00 00 00 00 00
+DIAG_21 cs=15 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=15 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=15 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=15 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=15 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=15 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=15 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_BLOCK cs=15 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+DIAG_DATA cs=15 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_BLOCK cs=1 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_DATA cs=1 t=0 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=1 t=0 g1=1 g2=1
+PROD_BLOCK cs=1 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_DATA cs=1 t=1 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=1 t=1 g1=1 g2=1
+PROD_BLOCK cs=1 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_DATA cs=1 t=2 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=1 t=2 g1=1 g2=1
+PROD_BLOCK cs=1 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_DATA cs=1 t=3 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=1 t=3 g1=1 g2=1
+PROD_BLOCK cs=1 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_DATA cs=1 t=4 rc=0 00 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=1 t=4 g1=1 g2=1
+PROD_BLOCK cs=2 t=0 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+PROD_DATA cs=2 t=0 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=2 t=0 g1=1 g2=1
+PROD_BLOCK cs=2 t=1 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+PROD_DATA cs=2 t=1 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=2 t=1 g1=1 g2=1
+PROD_BLOCK cs=2 t=2 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+PROD_DATA cs=2 t=2 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=2 t=2 g1=1 g2=1
+PROD_BLOCK cs=2 t=3 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+PROD_DATA cs=2 t=3 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=2 t=3 g1=1 g2=1
+PROD_BLOCK cs=2 t=4 rc=0 70 06 06 44 00 00 04 00 00 00 00 00
+PROD_DATA cs=2 t=4 rc=0 80 00 00 00 00 00 00 00 00 00 00 00
+PROD_LEVELS cs=2 t=4 g1=1 g2=1
+DIAG_DONE
