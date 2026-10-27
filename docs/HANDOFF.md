@@ -1,37 +1,23 @@
-# 2026-10-26 — offline strict runner repair; soldered two-source stage ready
+# 2026-10-27 — strict runner committed; physical two-source stage unverified
 
-- Actual work branch: `fix/strict-runner-20261026`, HEAD `ec600d9aab1b242ba0c81126ed68dbe762c1e3b4`.
-  Remote `main` rechecked at the same SHA. Current fixes/evidence are uncommitted;
-  no push or board flash was performed. Main branch pointer remains unchanged.
-- Operator reports two-source soldering complete and powered on 2026-10-26;
-  ready for the first bounded TEST run on `/dev/ttyACM0`.
-  No 2/6/11 hardware acceptance is claimed. Keep this board separate from EgoGlove.
-- Preserved **all 61 files / 700505 bytes** from the temporary evidence root,
-  byte-for-byte SHA256 verified: [preservation manifest](../evidence/2026-10-26-preserved/preservation-manifest.json).
-  Temporary originals and 11 older curated copies retained. Old filenames such as
-  `twosource_pass.log` are labels, not verdicts.
-- Runner now stops on flash readback error/timeout/missing/short/mismatch;
-  each readback has its own directory. No reset/capture after readback failure.
-  Serial bytes are flushed individually before line assembly, including a mid-line
-  disconnect. A new raw file is reserved and announced by default before hardware
-  activity; --raw selects an explicit new path. No prior capture is overwritten.
-  Explicit stage required: `--expect N` means exact IDs `0..N-1`; use
-  `--expect-sources 0,2` only for a predeclared noncontiguous population.
-  Unique/full source matrix, per-source PASS/checks/WHO, SUMMARY and MATRIX_DONE
-  count/order/single-run consistency are required; missing sources/summary fail.
-- Production sampling no longer retries bad blocks. First STATUS/read/plausibility
-  error parks that unit for the run and fails health checks; existing thresholds
-  retained. Accel/gyro DRDY arriving separately still accumulate in data-path check.
-- Offline tests: `python3 -m unittest discover -s tests` (24 tests, including two
-  host-compiled production-C sampling tests). ESP-IDF v6.0.2 TEST build uses
-  `build/offline-strict-test`; existing ignored root sdkconfig is DIAG and was
-  preserved. Build/test details: [offline evidence](../evidence/2026-10-26-offline/verification.json).
-  No measurement proves firmware fully excluded or a particular electrical root cause.
+- Repo `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`; branch `fix/strict-runner-20261026`.
+  Runner/firmware/evidence commit `9fe42d3` is local and unpushed; `main` remains at baseline `ec600d9`.
+- Latest host inventory: `/dev/serial/by-id` exposes only `usb-SN0002_2K_USB_Camera_...-if04`,
+  which resolves to `/dev/ttyACM0` and identifies as the Hikvision camera CDC interface.
+  There is no ESP32 test-board serial identity in this host; do not use this `/dev/ttyACM0` for IMU tests.
+- The last direct user status said the 2-route soldering was unfinished, expected by 2026-10-27.
+  No later physical confirmation, marking, continuity, or rail measurement is available. No 2/6/11 hardware
+  test, flash, or hardware PASS was performed.
+- Preserved all 61 files / 700505 bytes under `evidence/2026-10-26-preserved/`, SHA256 checked against
+  temporary originals and saved copies. Offline runner/C tests: 24 passed. ESP-IDF v6.0.2 isolated TEST build passed;
+  no device write occurred. `sdkconfig` DIAG state was preserved.
+- Runner requires an explicit expected population, stops before reset/capture on readback errors,
+  preserves raw serial bytes including disconnect mid-line, and rejects matrix inconsistencies.
+  Firmware stops at first read error without retrying bad blocks; thresholds unchanged.
 
-**Next field action:** with the two-source board powered on `/dev/ttyACM0`,
-run one bounded strict TEST with `--expect 2` and a new raw path
-(see [perfboard guide](perfboard-11-imu.md)). Stop on failure; 6 and 11 follow
-only after separate passing stage evidence. Do not rerun the old breadboard probes.
+**Next field step:** once soldering is confirmed, recheck physical markings, continuity, 3V3 and exact
+by-id ownership, then make one bounded `--expect 2` run with a new raw path. Stop on failure; expand only
+through separate passing 6- and 11-source stages.
 
 ---
 
