@@ -1,3 +1,46 @@
+# 2026-10-30 — EVT-A dual-SPI offline build; field stages still unrun
+
+- Repo `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`, worktree branch
+  `feat/dual-spi-evt-a` from `8d4ec2b` (strict-runner HEAD). All changes are
+  local; nothing pushed.
+- **Hardware state changed since 2026-10-27:** the host now exposes
+  `usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00` →
+  `/dev/ttyACM1` (Espressif `303a:1001`), in addition to the Hikvision camera
+  on `/dev/ttyACM0`. Use only the Espressif by-id for IMU work. Physical
+  2/6/11 population, marking, continuity and 3V3 are still unverified here.
+- Offline only: 36 unit tests OK; EVT-A dual image `c03efac4…` (216336 B) and
+  legacy image `bbe42ff6…` (216320 B) built. No flash, readback, serial capture
+  or hardware PASS was performed.
+- Implemented EVT-A A02/A03 dual bus: SPI2 GPIO12/11/13 → sid1–6, SPI3
+  GPIO18/21/47 → sid0,7–10. Each host owns its device handle, lock, CS-routing
+  state and tx/err counters; no shared `s_bus_dev`/`s_routed_cs`. CS map is
+  unchanged (`1,2,4,5,6,7,8,9,10,14,15`). Legacy single-bus stays buildable via
+  `sdkconfig.legacy`.
+- Firmware adds reset verification (WHO_AM_I 0x70, CTRL1 0x00, CTRL3 IF_INC),
+  MCU-readout gap counting (limit `expected/10`) and additive `BUS`/`BUS_BIND`/
+  `BUS_STATS` records. Frozen `UNIT_RESULT`/`SUMMARY`/`MATRIX_DONE` unchanged.
+- `tools/run_tests.py` now validates the bus plan (profile, per-source binding,
+  stats coverage, `err≤tx`, present-source traffic) on top of the strict
+  readback/source-set/SUMMARY/MATRIX_DONE checks already on this branch.
+- Evidence: `evidence/2026-10-30-offline/` (`tests.log`, `build.log`,
+  `build-legacy.log`, `verification.json`). Older evidence untouched.
+- Config + field plan: `docs/dual-spi-evt-a.md`.
+
+**Next command (field, 2 sources only after physical confirmation):**
+
+```bash
+. ~/.espressif/v6.0.2/esp-idf/export.sh
+PORT=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00
+tools/mode.sh test && tools/build.sh
+python3 tools/run_tests.py --port "$PORT" --expect 2
+```
+
+Stop on any failure; expand only 2 → 6 → 11 in separate passing stages. Do not
+treat this offline build, or an old `--expect N` health PASS, as full-system
+continuous-read / FIFO-native / sync acceptance.
+
+---
+
 # 2026-10-27 — strict runner committed; physical two-source stage unverified
 
 - Repo `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`; branch `fix/strict-runner-20261026`.

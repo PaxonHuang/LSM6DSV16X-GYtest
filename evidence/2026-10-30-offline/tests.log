@@ -1,0 +1,235 @@
+...............................serial evidence: /tmp/tmp69lexve9/capture-1793375495352065019.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — BUS_STATS A errors exceed transactions
+serial evidence: /tmp/tmplof_qga8/raw.bin
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+serial evidence: /tmp/tmpkea2grfh/capture-1793375495354776965.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+  | �partial
+serial evidence: /tmp/tmpnielqk4h/capture-1793375495356534791.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — duplicate BUS_STATS A
+serial evidence: /tmp/tmpzgx1hmpp/capture-1793375495357741932.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  0  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — duplicate source ID; configured source matrix incomplete or out of range; present source set disagrees with expected source IDs
+serial evidence: /tmp/tmp1ughvzdr/capture-1793375495359206500.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       25/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 0 inconsistent PASS
+serial evidence: /tmp/tmpk3wlqwxy/capture-1793375495361350328.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x00   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 0 inconsistent PASS
+serial evidence: /tmp/tmpowm9614v/capture-1793375495363250683.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+serial evidence: /tmp/tmpp19scncc/capture-1793375495364802402.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=0 absent=0 count=2
+RESULT: FAIL — SUMMARY population disagrees with UNIT_RESULT; SUMMARY population disagrees with count
+serial evidence: /tmp/tmp_2ky29n8/capture-1793375495366110669.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: PASS — 2 present, 0 absent
+serial evidence: /tmp/tmp1n02ce_y/capture-1793375495367992355.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — BUS_STATS must cover exactly the buses named by BUS_BIND
+serial evidence: /tmp/tmph60m0k3u/capture-1793375495369174868.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+WARNING: MATRIX_DONE never arrived; the log may be truncated.
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; malformed MATRIX_DONE record
+serial evidence: /tmp/tmpm607zx0o/capture-1793375495370438494.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=3
+RESULT: FAIL — configured source matrix incomplete or out of range; SUMMARY population disagrees with count; BUS_BIND source set incomplete or duplicated
+serial evidence: /tmp/tmp1_fw44tq/capture-1793375495371665558.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — BUS_BIND source set incomplete or duplicated; BUS_STATS must cover exactly the buses named by BUS_BIND
+serial evidence: /tmp/tmpgdlufdii/capture-1793375495372824938.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one BUS profile record required
+serial evidence: /tmp/tmpdi3alir5/capture-1793375495374054474.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
+serial evidence: /tmp/tmpk3l3agle/capture-1793375495375263593.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; duplicate source ID; SUMMARY population disagrees with UNIT_RESULT; exactly one BUS profile record required; BUS_BIND source set incomplete or duplicated; duplicate BUS_STATS A; duplicate BUS_STATS B
+serial evidence: /tmp/tmpis011mmz/raw.log
+
+NO RESULT — no UNIT_RESULT line. Check power, port, baud 115200,
+            and that the firmware actually rebooted.
+serial evidence: /tmp/tmpynm8famh/capture-1793375495377762280.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  ABSENT       0/0  0x00   no_device
+  2  PASS       26/26  0x70   ok
+
+summary: present=2 absent=1 count=3
+RESULT: PASS — 2 present, 1 absent
+readback evidence: /tmp/tmptrmou1cl/readback-ysjsdwzn/flash_verify.bin
+serial evidence: /tmp/tmpskhfxv0u/capture-1793375495379942725.raw
+$ idf.py -b 460800 -p /dev/ttyACM0 flash
+readback evidence: /tmp/tmpskhfxv0u/readback-n5qnstp3/flash_verify.bin
+serial evidence: /tmp/tmpobv8n9g1/capture-1793375495381019136.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — matrix records out of order
+readback evidence: /tmp/tmp_5s2xrif/readback-em0lqnpa/flash_verify.bin
+serial evidence: /tmp/tmpu2wssck8/capture-1793375495382829583.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+WARNING: MATRIX_DONE never arrived; the log may be truncated.
+summary: present=2 absent=0 count=2
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
+serial evidence: /tmp/tmpgk69z0wt/capture-1793375495384071919.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — unknown bus profile mystery
+serial evidence: /tmp/tmppxpjce_h/capture-1793375495385299449.raw.....
+----------------------------------------------------------------------
+Ran 36 tests in 0.181s
+
+OK
+
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 1 bound to bus B, contract wants A; BUS_STATS must cover exactly the buses named by BUS_BIND
+serial evidence: /tmp/tmpzv0ka26l/capture-1793375495386474718.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — MATRIX_DONE disagrees with SUMMARY count
+serial evidence: /tmp/tmp8snc8sgf/capture-1793375495387726750.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  8  PASS       26/26  0x70   ok
+  9  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — configured source matrix incomplete or out of range; present source set disagrees with expected source IDs

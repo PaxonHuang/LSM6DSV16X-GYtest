@@ -10,9 +10,31 @@ from unittest.mock import patch
 spec = importlib.util.spec_from_file_location('runner', Path(__file__).parents[1]/'tools/run_tests.py')
 r = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(r)
-GOOD = ('UNIT_RESULT 0 PASS 26/26 raw=0x70 ok\n'
-        'UNIT_RESULT 1 PASS 26/26 raw=0x70 ok\n'
-        'SUMMARY present=2 absent=0 count=2\nMATRIX_DONE 2\n')
+
+
+def bus_factor(sid, profile='evta-dual'):
+    return 'A' if (profile == 'legacy-single' or 1 <= sid <= 6) else 'B'
+
+
+def bus_section(count, profile='evta-dual'):
+    lines = [f'BUS profile={profile} units={count}']
+    lines += [f'BUS_BIND {sid} {bus_factor(sid, profile)} cs={sid + 1}'
+              for sid in range(count)]
+    lines += [f'BUS_STATS {b} tx=10 err=0'
+              for b in sorted({bus_factor(s, profile) for s in range(count)})]
+    return '\n'.join(lines) + '\n'
+
+
+def good(count=2, profile='evta-dual'):
+    units = ''.join(f'UNIT_RESULT {i} PASS 26/26 raw=0x70 ok\n'
+                    for i in range(count))
+    return (bus_section(count, profile) + units +
+            f'SUMMARY present={count} absent=0 count={count}\n'
+            f'MATRIX_DONE {count}\n')
+
+
+GOOD = good()
+
 
 class RunnerTests(unittest.TestCase):
     def run_log(self, log, extra=()):
@@ -62,8 +84,11 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(raw.read_text(),'boot failure\n')
 
     def test_noncontiguous_population_explicit(self):
-        log=GOOD.replace('UNIT_RESULT 1 PASS','UNIT_RESULT 2 PASS').replace('absent=0 count=2','absent=1 count=3').replace('MATRIX_DONE 2','MATRIX_DONE 3')
-        log='UNIT_RESULT 1 ABSENT 0/0 raw=0x00 no_device\n'+log
+        log = bus_section(3)
+        log += 'UNIT_RESULT 0 PASS 26/26 raw=0x70 ok\n'
+        log += 'UNIT_RESULT 1 ABSENT 0/0 raw=0x00 no_device\n'
+        log += 'UNIT_RESULT 2 PASS 26/26 raw=0x70 ok\n'
+        log += 'SUMMARY present=2 absent=1 count=3\nMATRIX_DONE 3\n'
         self.assertEqual(self.run_log(log,['--expect-sources','0,2']),0)
 
     def test_bytes_preserved_without_decode_loss(self):
@@ -79,8 +104,37 @@ class RunnerTests(unittest.TestCase):
         self.assertNotEqual(self.run_log(GOOD.replace('MATRIX_DONE 2','MATRIX_DONE 2garbage')),0)
 
     def test_results_after_summary_rejected(self):
-        lines=GOOD.splitlines()
-        self.assertNotEqual(self.run_log('\n'.join([lines[2],*lines[:2],lines[3]])),0)
+        log = ('BUS profile=evta-dual units=2\nBUS_BIND 0 B cs=1\nBUS_BIND 1 A cs=2\n'
+               'BUS_STATS B tx=10 err=0\nBUS_STATS A tx=10 err=0\n'
+               'SUMMARY present=2 absent=0 count=2\n'
+               'UNIT_RESULT 0 PASS 26/26 raw=0x70 ok\n'
+               'UNIT_RESULT 1 PASS 26/26 raw=0x70 ok\n'
+               'MATRIX_DONE 2\n')
+        self.assertNotEqual(self.run_log(log),0)
+
+    def test_missing_bus_profile_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS profile=evta-dual units=2\n','')),0)
+
+    def test_unknown_bus_profile_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('profile=evta-dual','profile=mystery')),0)
+
+    def test_wrong_bus_binding_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 1 A cs=2','BUS_BIND 1 B cs=2')),0)
+
+    def test_missing_bus_binding_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 1 A cs=2\n','')),0)
+
+    def test_duplicate_bus_stats_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD+'BUS_STATS A tx=10 err=0\n'),0)
+
+    def test_bus_error_over_transactions_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS_STATS A tx=10 err=0','BUS_STATS A tx=2 err=3')),0)
+
+    def test_legacy_profile_all_on_bus_a_accepted(self):
+        self.assertEqual(self.run_log(good(2,'legacy-single')),0)
+
+    def test_legacy_profile_with_bus_b_rejected(self):
+        self.assertNotEqual(self.run_log(good(2,'legacy-single')+'BUS_STATS B tx=0 err=0\n'),0)
 
     def test_disconnect_preserves_partial_raw_bytes(self):
         from types import SimpleNamespace

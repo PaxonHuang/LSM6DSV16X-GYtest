@@ -25,6 +25,34 @@ menu "LSM6DSV16X test"
         default 50
         depends on RUN_MODE_STREAM
 
+    choice BUS_PROFILE
+        prompt "SPI bus profile"
+        default BUS_PROFILE_EVTA_DUAL
+        help
+            EVT-A A02 wires two independent SPI hosts: SPI2 (GPIO12/11/13)
+            serves sid 1..6 and SPI3 (GPIO18/21/47) serves sid 0 and 7..10.
+            LEGACY_SINGLE keeps the old one-bus baseline where every source
+            shares SPI2; use it only to recover an old single-SPI assembly.
+
+        config BUS_PROFILE_EVTA_DUAL
+            bool "EVT-A dual SPI (SPI2 sid1-6, SPI3 sid0,7-10)"
+
+        config BUS_PROFILE_LEGACY_SINGLE
+            bool "Legacy single SPI (all sources on SPI2)"
+    endchoice
+
+    config IMU_B_SCLK_GPIO
+        int "SPI3 SCLK GPIO (EVT-A bus B)"
+        default 18
+
+    config IMU_B_MOSI_GPIO
+        int "SPI3 MOSI GPIO (EVT-A bus B)"
+        default 21
+
+    config IMU_B_MISO_GPIO
+        int "SPI3 MISO GPIO (EVT-A bus B)"
+        default 47
+
     config IMU_SPI_KHZ
         int "SPI clock (kHz)"
         range 10 10000

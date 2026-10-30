@@ -38,6 +38,9 @@ UNIT_RE = re.compile(
 )
 DONE_RE = re.compile(r"^MATRIX_DONE (\d+)\r?$", re.MULTILINE)
 SUMMARY_RE = re.compile(r"^SUMMARY present=(\d+) absent=(\d+) count=(\d+)\r?$", re.MULTILINE)
+BUS_RE = re.compile(r"^BUS profile=(\S+) units=(\d+)\r?$", re.MULTILINE)
+BIND_RE = re.compile(r"^BUS_BIND (\d+) ([AB]) cs=(\d+)\r?$", re.MULTILINE)
+STATS_RE = re.compile(r"^BUS_STATS ([AB]) tx=(\d+) err=(\d+)\r?$", re.MULTILINE)
 
 
 def idf_env() -> None:
@@ -191,6 +194,63 @@ def parse(log: str) -> tuple[list[dict], dict | None, bool]:
     return units, summary, bool(DONE_RE.search(log))
 
 
+def validate_bus(log: str, units: list[dict], summary: dict | None) -> list[str]:
+    """Check the additive bus plan: profile, per-source binding, counters.
+
+    The frozen UNIT_RESULT/SUMMARY/MATRIX_DONE grammar is unchanged; these
+    records carry the EVT-A two-bus evidence the health verdict depends on.
+    """
+    problems = []
+    buses = list(BUS_RE.finditer(log))
+    binds = list(BIND_RE.finditer(log))
+    stats = list(STATS_RE.finditer(log))
+    if len(buses) != 1:
+        problems.append("exactly one BUS profile record required")
+    if log.count("BUS profile=") != len(buses):
+        problems.append("malformed BUS profile record")
+    if log.count("BUS_BIND") != len(binds):
+        problems.append("malformed BUS_BIND record")
+    if log.count("BUS_STATS") != len(stats):
+        problems.append("malformed BUS_STATS record")
+    if not buses:
+        return problems
+    profile = buses[0].group(1)
+    if profile not in ("evta-dual", "legacy-single"):
+        problems.append(f"unknown bus profile {profile}")
+        return problems
+    if summary is None:
+        return problems
+    count = summary["count"]
+    ids = [int(m.group(1)) for m in binds]
+    if len(ids) != len(set(ids)) or sorted(ids) != list(range(count)):
+        problems.append("BUS_BIND source set incomplete or duplicated")
+    for m in binds:
+        sid, bus = int(m.group(1)), m.group(2)
+        want = "A" if (profile == "legacy-single" or 1 <= sid <= 6) else "B"
+        if bus != want:
+            problems.append(f"source {sid} bound to bus {bus}, contract wants {want}")
+    by_bus: dict[str, tuple[int, int]] = {}
+    for m in stats:
+        b = m.group(1)
+        if b in by_bus:
+            problems.append(f"duplicate BUS_STATS {b}")
+        by_bus[b] = (int(m.group(2)), int(m.group(3)))
+    used = {m.group(2) for m in binds}
+    if set(by_bus) != used:
+        problems.append("BUS_STATS must cover exactly the buses named by BUS_BIND")
+    if profile == "legacy-single" and "B" in used:
+        problems.append("legacy-single must not bind a source to bus B")
+    for b, (tx, err) in by_bus.items():
+        if err > tx:
+            problems.append(f"BUS_STATS {b} errors exceed transactions")
+    present = [u for u in units if u["state"] != "ABSENT"]
+    for u in present:
+        b = "A" if (profile == "legacy-single" or 1 <= u["index"] <= 6) else "B"
+        if b in by_bus and by_bus[b][0] == 0:
+            problems.append(f"source {u['index']} present but bus {b} saw no traffic")
+    return problems
+
+
 def validate_log(log: str, expected: set[int]) -> list[str]:
     """Reject incomplete/mixed matrices before any health PASS is possible."""
     units, summary, done = parse(log)
@@ -231,6 +291,7 @@ def validate_log(log: str, expected: set[int]) -> list[str]:
     for token, pattern in (("UNIT_RESULT", UNIT_RE), ("SUMMARY", SUMMARY_RE), ("MATRIX_DONE", DONE_RE)):
         if log.count(token) != len(list(pattern.finditer(log))):
             problems.append(f"malformed {token} record")
+    problems.extend(validate_bus(log, units, summary))
     return problems
 
 

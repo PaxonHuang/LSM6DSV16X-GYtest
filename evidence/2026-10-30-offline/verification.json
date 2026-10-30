@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-30",
+  "repo": "LSM6DSV16X-GYtest",
+  "branch": "feat/dual-spi-evt-a",
+  "base_commit": "8d4ec2b",
+  "scope": "offline only: unit tests + ESP-IDF builds. No flash, no readback verify, no serial capture, no field PASS.",
+  "host": {
+    "os": "Linux",
+    "esp_idf": "v6.0.2",
+    "target": "esp32s3"
+  },
+  "hardware_inventory": {
+    "ttyACM0": "usb-SN0002_2K_USB_Camera_46435000_P020300_SN0002-if04 (Hikvision camera; do not use for IMU tests)",
+    "ttyACM1": "usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00 (Espressif 303a:1001; test-board candidate, physical population unverified)"
+  },
+  "offline_tests": {
+    "command": "python3 -m unittest discover -s tests -v",
+    "result": "OK",
+    "tests": 36,
+    "log": "tests.log"
+  },
+  "builds": {
+    "evta_dual": {
+      "config": "CONFIG_BUS_PROFILE_EVTA_DUAL=y; CONFIG_IMU_B_SCLK_GPIO=18; CONFIG_IMU_B_MOSI_GPIO=21; CONFIG_IMU_B_MISO_GPIO=47; CONFIG_IMU_SPI_KHZ=1000; CONFIG_UNIT_COUNT=11",
+      "size_bytes": 216336,
+      "sha256": "c03efac4e04e1e65573aa608e9c0de7b28ab48e16b14cdf6790bceb4bd6b26d0",
+      "log": "build.log",
+      "profile_string": "evta-dual"
+    },
+    "legacy_single": {
+      "config": "CONFIG_BUS_PROFILE_LEGACY_SINGLE=y",
+      "size_bytes": 216320,
+      "sha256": "bbe42ff62a80cad730c3c370235537f68d273a738ee4316687f0f3dcd2a3c93e",
+      "log": "build-legacy.log",
+      "profile_string": "legacy-single"
+    }
+  },
+  "not_run": [
+    "flash",
+    "byte-level flash readback verification",
+    "serial capture",
+    "2-source field stage",
+    "6-source field stage",
+    "11-source field stage",
+    "sensor-native FIFO/timestamp timing",
+    "USB backpressure field measurement"
+  ],
+  "next_field_command": "python3 tools/run_tests.py --port /dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00 --expect 2"
+}

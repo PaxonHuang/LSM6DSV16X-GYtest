@@ -1,0 +1,5 @@
+# Recoverable legacy single-bus baseline: every source on SPI2 (GPIO12/11/13).
+# Use only to recover an old single-SPI assembly; EVT-A dual is the default.
+#   SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.legacy" idf.py reconfigure
+CONFIG_BUS_PROFILE_LEGACY_SINGLE=y
+# CONFIG_BUS_PROFILE_EVTA_DUAL is not set
