@@ -1,5 +1,7 @@
 build/
 build-legacy/
+build-stream/
+build-diag/
 sdkconfig
 sdkconfig.old
 managed_components/

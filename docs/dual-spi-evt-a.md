@@ -84,7 +84,9 @@ sampling cadence. Native timing needs FIFO/timestamp analysis.
 - `python3 -m unittest discover -s tests -v` → `Ran 36 tests ... OK`.
 - EVT-A build: 216336 bytes, sha256 `c03efac4…26d0`, contains `evta-dual`.
 - Legacy build: 216320 bytes, sha256 `bbe42ff6…c93e`, contains `legacy-single`.
-- Evidence: `evidence/2026-10-30-offline/{tests.log,build.log,build-legacy.log,verification.json}`.
+- STREAM build compiles with `f`/`late`/`mwus` frame fields (217952 B).
+- DIAG build compiles; DIAG stays bus-A only by design (210752 B).
+- Evidence: `evidence/2026-10-30-offline/{tests.log,build.log,build-legacy.log,build-stream.log,build-diag.log,verification.json}`.
 
 ## Field stages (not yet run)
 

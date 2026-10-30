@@ -9,8 +9,9 @@
   on `/dev/ttyACM0`. Use only the Espressif by-id for IMU work. Physical
   2/6/11 population, marking, continuity and 3V3 are still unverified here.
 - Offline only: 36 unit tests OK; EVT-A dual image `c03efac4…` (216336 B) and
-  legacy image `bbe42ff6…` (216320 B) built. No flash, readback, serial capture
-  or hardware PASS was performed.
+  legacy image `bbe42ff6…` (216320 B) built. STREAM mode compiles with the new
+  `f`/`late`/`mwus` frame fields; DIAG mode also compiles. No flash, readback,
+  serial capture or hardware PASS was performed.
 - Implemented EVT-A A02/A03 dual bus: SPI2 GPIO12/11/13 → sid1–6, SPI3
   GPIO18/21/47 → sid0,7–10. Each host owns its device handle, lock, CS-routing
   state and tx/err counters; no shared `s_bus_dev`/`s_routed_cs`. CS map is

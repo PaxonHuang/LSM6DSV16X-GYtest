@@ -33,6 +33,20 @@
       "sha256": "bbe42ff62a80cad730c3c370235537f68d273a738ee4316687f0f3dcd2a3c93e",
       "log": "build-legacy.log",
       "profile_string": "legacy-single"
+    },
+    "stream_mode": {
+      "config": "CONFIG_RUN_MODE_STREAM=y; CONFIG_STREAM_HZ=50",
+      "size_bytes": 217952,
+      "sha256": "11aa06b208f7dd3807460b0003bbe6b7ef6412d12f7fdf7444ea929c7867c966",
+      "log": "build-stream.log",
+      "note": "NDJSON frame now carries f/late/mwus for USB backpressure"
+    },
+    "diag_mode": {
+      "config": "CONFIG_RUN_MODE_DIAG=y; CONFIG_IMU_SPI_KHZ=1000; CONFIG_DUMP_RAW=y",
+      "size_bytes": 210752,
+      "sha256": "d802aa4038601326448f76b1ef4c72808173f8c369292e13d0338a9c51859cb4",
+      "log": "build-diag.log",
+      "note": "DIAG remains bus-A only by design"
     }
   },
   "not_run": [
