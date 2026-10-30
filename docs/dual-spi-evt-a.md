@@ -88,7 +88,13 @@ sampling cadence. Native timing needs FIFO/timestamp analysis.
 - DIAG build compiles; DIAG stays bus-A only by design (210752 B).
 - Evidence: `evidence/2026-10-30-offline/{tests.log,build.log,build-legacy.log,build-stream.log,build-diag.log,verification.json}`.
 
-## Field stages (not yet run)
+## Field stages
+
+Stage 2 was attempted on 2026-10-30: flash readback verified, both buses
+transacted with `err=0`, but **0/11 sources answered** (bus A `0xFF`, bus B
+`0x00`). Result FAIL; 6/11 were not attempted. See
+`evidence/2026-10-30-field/result.json`. Resolve the physical population/power
+and bus-pin mapping before rerunning.
 
 Identify the test board by-id first; `/dev/ttyACM0` is the Hikvision camera.
 

@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-30",
+  "stage": "2-source field attempt",
+  "port": "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00",
+  "firmware_version": "497c209",
+  "flash": {
+    "readback_verified": true,
+    "bytes": 216336,
+    "sha256_flash_verify": "b7f740d3b18d3e0478b02a736d55cd41598472620d566a087225f4bdbd03f4a6"
+  },
+  "result": "FAIL",
+  "present": 0,
+  "absent": 11,
+  "expected_present": [0, 1],
+  "bus_stats": {
+    "A": {"tx": 6, "err": 0},
+    "B": {"tx": 5, "err": 0}
+  },
+  "identity_readback": {
+    "sid0_busB_cs1": "0x00",
+    "sid1_busA_cs2": "0xFF",
+    "sid2_busA_cs4": "0xFF",
+    "sid3_busA_cs5": "0xFF",
+    "sid4_busA_cs6": "0xFF",
+    "sid5_busA_cs7": "0xFF",
+    "sid6_busA_cs8": "0xFF",
+    "sid7_busB_cs9": "0x00",
+    "sid8_busB_cs10": "0x00",
+    "sid9_busB_cs14": "0x00",
+    "sid10_busB_cs15": "0x00"
+  },
+  "interpretation": "Transport ran: both buses completed transactions with zero transfer errors and the flash image matched the build. No source answered WHO_AM_I=0x70. Bus A reads 0xFF and bus B reads 0x00, so neither MISO net shows a powered, selected LSM6DSV16X. This is a physical/population/power/wiring observation, not a firmware PASS.",
+  "not_attempted": ["6-source stage", "11-source stage"],
+  "next_physical_checks": [
+    "Confirm which prototype is actually attached to the Espressif board and that modules are populated at the expected sid positions.",
+    "Measure 3V3 at each GY module VCC and confirm common ground continuity.",
+    "Confirm each module's SCL/MOSI/MISO/CS lands on the bus named by BUS_BIND (A: sid1-6, B: sid0,7-10).",
+    "Confirm the 74HC125 MISO gates are powered and that the unused U3 channel is safely terminated."
+  ]
+}

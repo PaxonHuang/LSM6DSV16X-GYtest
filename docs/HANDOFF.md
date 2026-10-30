@@ -1,4 +1,4 @@
-# 2026-10-30 — EVT-A dual-SPI offline build; field stages still unrun
+# 2026-10-30 — EVT-A dual-SPI built; field stage 2 ran, 0/11 sources answered
 
 - Repo `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`, worktree branch
   `feat/dual-spi-evt-a` from `8d4ec2b` (strict-runner HEAD). All changes are
@@ -8,10 +8,17 @@
   `/dev/ttyACM1` (Espressif `303a:1001`), in addition to the Hikvision camera
   on `/dev/ttyACM0`. Use only the Espressif by-id for IMU work. Physical
   2/6/11 population, marking, continuity and 3V3 are still unverified here.
-- Offline only: 36 unit tests OK; EVT-A dual image `c03efac4…` (216336 B) and
+- Offline: 36 unit tests OK; EVT-A dual image `c03efac4…` (216336 B) and
   legacy image `bbe42ff6…` (216320 B) built. STREAM mode compiles with the new
-  `f`/`late`/`mwus` frame fields; DIAG mode also compiles. No flash, readback,
-  serial capture or hardware PASS was performed.
+  `f`/`late`/`mwus` frame fields; DIAG mode also compiles.
+- **Field stage 2 (2026-10-30):** flashed `497c209`, flash readback verified
+  216336 B at 0x10000, firmware printed `BUS profile=evta-dual`. Both buses
+  transacted with zero transfer errors (`A tx=6`, `B tx=5`) but all 11 sources
+  returned ABSENT — bus A reads `0xFF`, bus B reads `0x00`. Result **FAIL**,
+  0/2 expected present. The 6- and 11-source stages were **not** attempted.
+  This is a physical/population/power/wiring observation, not a firmware error.
+  Evidence: `evidence/2026-10-30-field/` (`stage2.log`, `stage2.raw`,
+  `flash_verify.bin`, `result.json`).
 - Implemented EVT-A A02/A03 dual bus: SPI2 GPIO12/11/13 → sid1–6, SPI3
   GPIO18/21/47 → sid0,7–10. Each host owns its device handle, lock, CS-routing
   state and tx/err counters; no shared `s_bus_dev`/`s_routed_cs`. CS map is
@@ -27,18 +34,28 @@
   `build-legacy.log`, `verification.json`). Older evidence untouched.
 - Config + field plan: `docs/dual-spi-evt-a.md`.
 
-**Next command (field, 2 sources only after physical confirmation):**
+**Next action — physical, before any further field run:**
+
+1. Confirm which prototype is attached and that modules are populated at the
+   expected sid positions.
+2. Measure 3V3 at each GY VCC and common-ground continuity.
+3. Confirm each module's SCL/MOSI/MISO/CS lands on the bus named by `BUS_BIND`
+   (A: sid1–6, B: sid0,7–10).
+4. Confirm the 74HC125 MISO gates are powered and U3's unused channel is
+   terminated.
+
+Then rerun stage 2 only (do not jump to 6/11):
 
 ```bash
 . ~/.espressif/v6.0.2/esp-idf/export.sh
 PORT=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00
 tools/mode.sh test && tools/build.sh
-python3 tools/run_tests.py --port "$PORT" --expect 2
+python3 tools/run_tests.py --port "$PORT" --expect 2 --raw evidence/<new-date>/stage2.raw
 ```
 
 Stop on any failure; expand only 2 → 6 → 11 in separate passing stages. Do not
-treat this offline build, or an old `--expect N` health PASS, as full-system
-continuous-read / FIFO-native / sync acceptance.
+treat a health PASS as full-system continuous-read / FIFO-native / sync
+acceptance.
 
 ---
 
