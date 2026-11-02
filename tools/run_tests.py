@@ -57,6 +57,10 @@ def idf_env() -> None:
 APP_OFFSET = 0x10000
 APP_BIN = PROJECT / "build" / "lsm6dsv16x_test.bin"
 
+# Frozen EVT-A A02 CS assignment, sid0..10. The health result is only
+# meaningful if each source really answered on this GPIO.
+CS_MAP = (1, 2, 4, 5, 6, 7, 8, 9, 10, 14, 15)
+
 
 def flash(port: str | None) -> None:
     cmd = ["idf.py", "-b", str(IDF_BAUD)]
@@ -224,11 +228,18 @@ def validate_bus(log: str, units: list[dict], summary: dict | None) -> list[str]
     ids = [int(m.group(1)) for m in binds]
     if len(ids) != len(set(ids)) or sorted(ids) != list(range(count)):
         problems.append("BUS_BIND source set incomplete or duplicated")
+    cs_seen = []
     for m in binds:
-        sid, bus = int(m.group(1)), m.group(2)
+        sid, bus, cs = int(m.group(1)), m.group(2), int(m.group(3))
         want = "A" if (profile == "legacy-single" or 1 <= sid <= 6) else "B"
         if bus != want:
             problems.append(f"source {sid} bound to bus {bus}, contract wants {want}")
+        if 0 <= sid < len(CS_MAP) and cs != CS_MAP[sid]:
+            problems.append(
+                f"source {sid} bound to CS GPIO{cs}, contract wants GPIO{CS_MAP[sid]}")
+        cs_seen.append(cs)
+    if len(cs_seen) != len(set(cs_seen)):
+        problems.append("BUS_BIND reuses a CS GPIO")
     by_bus: dict[str, tuple[int, int]] = {}
     for m in stats:
         b = m.group(1)

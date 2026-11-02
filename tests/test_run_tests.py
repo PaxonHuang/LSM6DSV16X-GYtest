@@ -18,7 +18,7 @@ def bus_factor(sid, profile='evta-dual'):
 
 def bus_section(count, profile='evta-dual'):
     lines = [f'BUS profile={profile} units={count}']
-    lines += [f'BUS_BIND {sid} {bus_factor(sid, profile)} cs={sid + 1}'
+    lines += [f'BUS_BIND {sid} {bus_factor(sid, profile)} cs={r.CS_MAP[sid]}'
               for sid in range(count)]
     lines += [f'BUS_STATS {b} tx=10 err=0'
               for b in sorted({bus_factor(s, profile) for s in range(count)})]
@@ -120,6 +120,12 @@ class RunnerTests(unittest.TestCase):
 
     def test_wrong_bus_binding_rejected(self):
         self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 1 A cs=2','BUS_BIND 1 B cs=2')),0)
+
+    def test_wrong_cs_mapping_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 0 B cs=1','BUS_BIND 0 B cs=3')),0)
+
+    def test_duplicate_cs_mapping_rejected(self):
+        self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 1 A cs=2','BUS_BIND 1 A cs=1')),0)
 
     def test_missing_bus_binding_rejected(self):
         self.assertNotEqual(self.run_log(GOOD.replace('BUS_BIND 1 A cs=2\n','')),0)
