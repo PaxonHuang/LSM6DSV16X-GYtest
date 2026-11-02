@@ -21,7 +21,14 @@
   "images": {
     "test": {"file": "build/lsm6dsv16x_test.bin", "bytes": 216544, "sha256": "92096df3086e0dd6020653cbb7e148709c57467fbe421a445af2c9cfdaee7999"},
     "stream": {"file": "build-stream/lsm6dsv16x_test.bin", "bytes": 214640, "sha256": "1761cde7914a8047aa2b9281bd6831bed35ea1f8f776e4f6422c9648da6936b7"},
-    "stream_console": "USB-Serial/JTAG primary (UART0 mirror removed in stream overlay)"
+    "stream_console": "USB-Serial/JTAG primary (UART0 mirror removed in stream overlay)",
+    "note": "hashes include the compiler build timestamp; source + config identify the image"
+  },
+  "offline": {
+    "unit_tests": 43,
+    "result": "OK",
+    "log": "evidence/2026-11-02-field/tests.log",
+    "checks": "strict readback abort, exact source set, bus binding, CS GPIO map, SUMMARY/MATRIX_DONE, stream replay analysis"
   },
   "health": {
     "raw": "evidence/2026-11-02-field/stage2-final.raw",

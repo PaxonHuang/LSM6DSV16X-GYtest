@@ -7,6 +7,7 @@ test_bytes_preserved_without_decode_loss (test_run_tests.RunnerTests.test_bytes_
 test_default_capture_always_allocates_new_raw_evidence (test_run_tests.RunnerTests.test_default_capture_always_allocates_new_raw_evidence) ... ok
 test_disconnect_preserves_partial_raw_bytes (test_run_tests.RunnerTests.test_disconnect_preserves_partial_raw_bytes) ... ok
 test_duplicate_bus_stats_rejected (test_run_tests.RunnerTests.test_duplicate_bus_stats_rejected) ... ok
+test_duplicate_cs_mapping_rejected (test_run_tests.RunnerTests.test_duplicate_cs_mapping_rejected) ... ok
 test_duplicate_source_rejected (test_run_tests.RunnerTests.test_duplicate_source_rejected) ... ok
 test_false_pass_checks_rejected (test_run_tests.RunnerTests.test_false_pass_checks_rejected) ... ok
 test_false_pass_identity_rejected (test_run_tests.RunnerTests.test_false_pass_identity_rejected) ... ok
@@ -27,9 +28,7 @@ test_previous_flash_readback_preserved (test_run_tests.RunnerTests.test_previous
 test_readback_failure_aborts_before_reset_or_capture (test_run_tests.RunnerTests.test_readback_failure_aborts_before_reset_or_capture) ... ok
 test_results_after_summary_rejected (test_run_tests.RunnerTests.test_results_after_summary_rejected) ... ok
 test_short_readback_reports_first_missing_byte (test_run_tests.RunnerTests.test_short_readback_reports_first_missing_byte) ... ok
-test_truncation_rejected (test_run_tests.RunnerTests.test_truncation_rejected) ... ok
-test_unknown_bus_profile_rejected (test_run_tests.RunnerTests.test_unknown_bus_profile_rejected) ... ok
-test_wrong_bus_binding_rejected (test_run_tests.RunnerTests.test_wrong_bus_binding_rejected) ... serial evidence: /tmp/tmpre5byh9e/capture-1793607004428674629.raw
+test_truncation_rejected (test_run_tests.RunnerTests.test_truncation_rejected) ... serial evidence: /tmp/tmpdl2s4msn/capture-1793607728686736005.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -38,7 +37,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — BUS_STATS A errors exceed transactions
-serial evidence: /tmp/tmp44au86ov/raw.bin
+serial evidence: /tmp/tmpstw48bkf/raw.bin
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -47,7 +46,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: PASS — 2 present, 0 absent
-serial evidence: /tmp/tmp4s7gb__t/capture-1793607004433632879.raw
+serial evidence: /tmp/tmp04w6rilm/capture-1793607728689514347.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -57,7 +56,7 @@ src  state     checks    WHO  detail
 summary: present=2 absent=0 count=2
 RESULT: PASS — 2 present, 0 absent
   | �partial
-serial evidence: /tmp/tmp4niykr4i/capture-1793607004436861584.raw
+serial evidence: /tmp/tmp33l05szv/capture-1793607728691300413.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -66,7 +65,16 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — duplicate BUS_STATS A
-serial evidence: /tmp/tmpkww_6kbb/capture-1793607004439029186.raw
+serial evidence: /tmp/tmpmq70u4fi/capture-1793607728692615043.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 1 bound to CS GPIO1, contract wants GPIO2; BUS_BIND reuses a CS GPIO
+serial evidence: /tmp/tmppc0zivsz/capture-1793607728693842806.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -75,7 +83,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — duplicate source ID; configured source matrix incomplete or out of range; present source set disagrees with expected source IDs
-serial evidence: /tmp/tmpierokixc/capture-1793607004441370719.raw
+serial evidence: /tmp/tmpmxdh2ego/capture-1793607728695126477.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -84,7 +92,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — source 0 inconsistent PASS
-serial evidence: /tmp/tmp64566o8g/capture-1793607004443700790.raw
+serial evidence: /tmp/tmpspit_j_4/capture-1793607728697091284.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -93,7 +101,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — source 0 inconsistent PASS
-serial evidence: /tmp/tmps2u6kixb/capture-1793607004445877189.raw
+serial evidence: /tmp/tmp67vct9t9/capture-1793607728698316605.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -102,7 +110,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: PASS — 2 present, 0 absent
-serial evidence: /tmp/tmp_djb8fyz/capture-1793607004449168281.raw
+serial evidence: /tmp/tmplq7ypj5m/capture-1793607728699583419.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -111,7 +119,7 @@ src  state     checks    WHO  detail
 
 summary: present=0 absent=0 count=2
 RESULT: FAIL — SUMMARY population disagrees with UNIT_RESULT; SUMMARY population disagrees with count
-serial evidence: /tmp/tmpzqursyer/capture-1793607004451472373.raw
+serial evidence: /tmp/tmpwrgbxg2f/capture-1793607728700870914.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -120,7 +128,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: PASS — 2 present, 0 absent
-serial evidence: /tmp/tmp0208tm03/capture-1793607004453649873.raw
+serial evidence: /tmp/tmpbypkh_43/capture-1793607728702078140.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -129,7 +137,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — BUS_STATS must cover exactly the buses named by BUS_BIND
-serial evidence: /tmp/tmpgw9yukq7/capture-1793607004455948666.raw
+serial evidence: /tmp/tmpldbvi97f/capture-1793607728703364711.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -139,7 +147,7 @@ src  state     checks    WHO  detail
 WARNING: MATRIX_DONE never arrived; the log may be truncated.
 summary: present=2 absent=0 count=2
 RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; malformed MATRIX_DONE record
-serial evidence: /tmp/tmpir0z0heb/capture-1793607004457970978.raw
+serial evidence: /tmp/tmp4ulm49kn/capture-1793607728704643358.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -148,7 +156,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=3
 RESULT: FAIL — configured source matrix incomplete or out of range; SUMMARY population disagrees with count; BUS_BIND source set incomplete or duplicated
-serial evidence: /tmp/tmp2we6ybjx/capture-1793607004459730524.raw
+serial evidence: /tmp/tmpj3gbrjq8/capture-1793607728705844984.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -157,7 +165,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — BUS_BIND source set incomplete or duplicated; BUS_STATS must cover exactly the buses named by BUS_BIND
-serial evidence: /tmp/tmp53yirzb3/capture-1793607004461783914.raw
+serial evidence: /tmp/tmp9q_jn8c2/capture-1793607728707114445.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -166,7 +174,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — exactly one BUS profile record required
-serial evidence: /tmp/tmpfqmrhlh_/capture-1793607004464185011.raw
+serial evidence: /tmp/tmp88vf01pa/capture-1793607728708420901.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -174,7 +182,7 @@ src  state     checks    WHO  detail
   1  PASS       26/26  0x70   ok
 
 RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
-serial evidence: /tmp/tmpid0nbv0x/capture-1793607004465719286.raw
+serial evidence: /tmp/tmp4av78si0/capture-1793607728709603087.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -184,12 +192,12 @@ src  state     checks    WHO  detail
   1  PASS       26/26  0x70   ok
 
 summary: present=2 absent=0 count=2
-RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; duplicate source ID; SUMMARY population disagrees with UNIT_RESULT; exactly one BUS profile record required; BUS_BIND source set incomplete or duplicated; duplicate BUS_STATS A; duplicate BUS_STATS B
-serial evidence: /tmp/tmp98fn9q45/raw.log
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required; duplicate source ID; SUMMARY population disagrees with UNIT_RESULT; exactly one BUS profile record required; BUS_BIND source set incomplete or duplicated; BUS_BIND reuses a CS GPIO; duplicate BUS_STATS A; duplicate BUS_STATS B
+serial evidence: /tmp/tmpyw7q70tq/raw.log
 
 NO RESULT — no UNIT_RESULT line. Check power, port, baud 115200,
             and that the firmware actually rebooted.
-serial evidence: /tmp/tmpd_w12fi_/capture-1793607004469116674.raw
+serial evidence: /tmp/tmplf6dsnh6/capture-1793607728712303727.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -199,11 +207,11 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=1 count=3
 RESULT: PASS — 2 present, 1 absent
-readback evidence: /tmp/tmpwx8q3lvg/readback-nk5kgp0c/flash_verify.bin
-serial evidence: /tmp/tmpau8dpodz/capture-1793607004471810006.raw
+readback evidence: /tmp/tmp1q9lrc2o/readback-3llkjov1/flash_verify.bin
+serial evidence: /tmp/tmp7ewsll5r/capture-1793607728715251386.raw
 $ idf.py -b 460800 -p /dev/ttyACM0 flash
-readback evidence: /tmp/tmpau8dpodz/readback-qp94e27j/flash_verify.bin
-serial evidence: /tmp/tmpy7qop7wd/capture-1793607004472985175.raw
+readback evidence: /tmp/tmp7ewsll5r/readback-aqaxdwey/flash_verify.bin
+serial evidence: /tmp/tmp47dhupdr/capture-1793607728716376381.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -212,8 +220,8 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — matrix records out of order
-readback evidence: /tmp/tmpzf5hpiee/readback-2n65tho8/flash_verify.bin
-serial evidence: /tmp/tmpr39rgwm3/capture-1793607004474927449.raw
+readback evidence: /tmp/tmp3yrknu7_/readback-wh9o1e90/flash_verify.bin
+serial evidence: /tmp/tmpl7l0khfe/capture-1793607728718269438.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -222,17 +230,10 @@ src  state     checks    WHO  detail
 
 WARNING: MATRIX_DONE never arrived; the log may be truncated.
 summary: present=2 absent=0 count=2
-RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE required
-serial evidence: /tmp/tmpxvv0ysug/capture-1793607004476273693.raw
-
-src  state     checks    WHO  detail
-------------------------------------------------------------------------
-  0  PASS       26/26  0x70   ok
-  1  PASS       26/26  0x70   ok
-
-summary: present=2 absent=0 count=2
-RESULT: FAIL — unknown bus profile mystery
-serial evidence: /tmp/tmp1yk3rx4d/capture-1793607004477509450.rawok
+RESULT: FAIL — exactly one SUMMARY and MATRIX_DONE requiredok
+test_unknown_bus_profile_rejected (test_run_tests.RunnerTests.test_unknown_bus_profile_rejected) ... ok
+test_wrong_bus_binding_rejected (test_run_tests.RunnerTests.test_wrong_bus_binding_rejected) ... ok
+test_wrong_cs_mapping_rejected (test_run_tests.RunnerTests.test_wrong_cs_mapping_rejected) ... ok
 test_wrong_matrix_count_rejected (test_run_tests.RunnerTests.test_wrong_matrix_count_rejected) ... ok
 test_wrong_source_set_rejected (test_run_tests.RunnerTests.test_wrong_source_set_rejected) ... ok
 test_separate_accel_and_gyro_ready_events_accumulate (test_sampling.DataPathTests.test_separate_accel_and_gyro_ready_events_accumulate) ... ok
@@ -244,10 +245,20 @@ test_seq_gap_counts_missing_reads (test_stream_analyze.AnalyzeTest.test_seq_gap_
 test_usb_gap_and_snapshot (test_stream_analyze.AnalyzeTest.test_usb_gap_and_snapshot) ... ok
 
 ----------------------------------------------------------------------
-Ran 41 tests in 0.294s
+Ran 43 tests in 0.189s
 
 OK
 
+serial evidence: /tmp/tmpguoqzcjx/capture-1793607728719571837.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — unknown bus profile mystery
+serial evidence: /tmp/tmpjptway30/capture-1793607728720746639.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -256,7 +267,16 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — source 1 bound to bus B, contract wants A; BUS_STATS must cover exactly the buses named by BUS_BIND
-serial evidence: /tmp/tmp0wh9zxw0/capture-1793607004478835102.raw
+serial evidence: /tmp/tmp8witzg_j/capture-1793607728722536094.raw
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       26/26  0x70   ok
+  1  PASS       26/26  0x70   ok
+
+summary: present=2 absent=0 count=2
+RESULT: FAIL — source 0 bound to CS GPIO3, contract wants GPIO1
+serial evidence: /tmp/tmpa91qas8c/capture-1793607728723821531.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
@@ -265,7 +285,7 @@ src  state     checks    WHO  detail
 
 summary: present=2 absent=0 count=2
 RESULT: FAIL — MATRIX_DONE disagrees with SUMMARY count
-serial evidence: /tmp/tmpybpahg5p/capture-1793607004480676066.raw
+serial evidence: /tmp/tmplyjeskh0/capture-1793607728724999106.raw
 
 src  state     checks    WHO  detail
 ------------------------------------------------------------------------
