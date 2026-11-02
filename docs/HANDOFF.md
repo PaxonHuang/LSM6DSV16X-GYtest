@@ -33,6 +33,9 @@
 - Evidence: `evidence/2026-10-30-offline/` (`tests.log`, `build.log`,
   `build-legacy.log`, `verification.json`). Older evidence untouched.
 - Config + field plan: `docs/dual-spi-evt-a.md`.
+- 2 源面包板逐行接线（sid0/B + sid1/A）：`docs/breadboard-2-source-evt-a.md`
+  与 `docs/breadboard-2-source-evt-a.html`（彩色逐行图，截图
+  `docs/screenshots/breadboard-2src.png`）。
 
 **Next action — physical, before any further field run:**
 
