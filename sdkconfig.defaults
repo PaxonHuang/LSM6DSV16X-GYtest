@@ -26,3 +26,7 @@ CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
 # 1 kHz tick. At the 100 Hz default, pdMS_TO_TICKS(8) rounds to 0, so a
 # sub-10 ms poll delay is not expressible and the sampling loop spins.
 CONFIG_FREERTOS_HZ=1000
+
+# Wi-Fi/coex are hidden bools forced on by SOC_WIFI_SUPPORTED in this IDF, so
+# sdkconfig.defaults cannot turn them off. The app never initializes Wi-Fi or
+# BT; radio code stays unreferenced at runtime.
