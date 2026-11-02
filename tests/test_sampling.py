@@ -19,12 +19,17 @@ class SamplingTests(unittest.TestCase):
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 #define CONFIG_BURST_LEN 12
 #define LSM6DSV16X_STATUS_REG 0x1e
 #define LSM6DSV16X_OUTX_L_G 0x22
 struct ctx { int unused; };
-typedef struct { struct ctx ctx; unsigned errors,samples_a,samples_g; } imu_unit_t;
+typedef struct { struct ctx ctx; unsigned errors,samples_a,samples_g,dup,snaps;
+                 unsigned err_status,err_block,err_plaus; bool parked;
+                 int64_t last_read_us; uint8_t last_blk[12]; bool have_last_blk;
+               } imu_unit_t;
+static int64_t esp_timer_get_time(void){return 0;}
 static unsigned s_st_hist[256];
 static int block_reads,status_reads,fail_status;
 static int lsm6dsv16x_read_reg(struct ctx *ctx,int reg,uint8_t *buf,int n) {
@@ -63,6 +68,7 @@ class DataPathTests(unittest.TestCase):
         prefix=r'''
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 #include <assert.h>
 #include <math.h>
 #define CONFIG_BURST_LEN 12
@@ -70,7 +76,10 @@ class DataPathTests(unittest.TestCase):
 #define LSM6DSV16X_OUTX_L_G 0x22
 #define pdMS_TO_TICKS(x) (x)
 #define vTaskDelay(x) ((void)0)
-typedef struct {int ctx;unsigned errors,samples_a,samples_g;} imu_unit_t;
+typedef struct {int ctx;unsigned errors,samples_a,samples_g,dup,snaps;
+                unsigned err_status,err_block,err_plaus;bool parked;
+                int64_t last_read_us;uint8_t last_blk[12];bool have_last_blk;} imu_unit_t;
+static int64_t esp_timer_get_time(void){return 0;}
 typedef struct {int passed,failed;} test_ctx_t;
 static unsigned s_st_hist[256];static int reads;
 static void check(test_ctx_t *t,bool ok,const char *format,...) {if(ok)t->passed++;else t->failed++;}

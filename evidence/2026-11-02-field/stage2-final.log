@@ -1,0 +1,148 @@
+Adding "flash"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build
+Executing "ninja all"...
+[1/4] cd /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build && /home/paxon/.espressif/python_env/idf6.0_py3.12_env/bin/python /home/paxon/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/partition_table/partition-table.bin /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/lsm6dsv16x_test.bin
+lsm6dsv16x_test.bin binary size 0x34de0 bytes. Smallest app partition is 0x100000 bytes. 0xcb220 bytes (79%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cd /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/bootloader && /home/paxon/.espressif/python_env/idf6.0_py3.12_env/bin/python /home/paxon/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/bootloader/bootloader.bin
+Bootloader binary size 0x49d0 bytes. 0x3630 bytes (42%) free.
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'
+Executing action: flash
+Running ninja in directory /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build
+Executing "ninja flash"...
+[1/5] cd /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build && /home/paxon/.espressif/python_env/idf6.0_py3.12_env/bin/python /home/paxon/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/partition_table/partition-table.bin /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/lsm6dsv16x_test.bin
+lsm6dsv16x_test.bin binary size 0x34de0 bytes. Smallest app partition is 0x100000 bytes. 0xcb220 bytes (79%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/bootloader && /home/paxon/.espressif/python_env/idf6.0_py3.12_env/bin/python /home/paxon/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/bootloader/bootloader.bin
+Bootloader binary size 0x49d0 bytes. 0x3630 bytes (42%) free.
+[3/5] No install step for 'bootloader'
+[4/5] Completed 'bootloader'
+[4/5] Running utility command for flash
+esptool --chip esp32s3 -p /dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00 -b 460800 --before=default-reset --after=hard-reset write-flash --flash-mode dio --flash-freq 80m --flash-size 16MB 0x0 bootloader/bootloader.bin 0x8000 partition_table/partition-table.bin 0x10000 lsm6dsv16x_test.bin
+esptool v5.4.0
+Serial port /dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00:
+Connecting.....
+Connected to ESP32-S3 on /dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00:
+Chip type:          ESP32-S3 (QFN56) (revision v0.2)
+Features:           Wi-Fi, BT 5 (LE), Dual Core + LP Core, 240MHz, Embedded PSRAM 8MB (AP_3v3)
+Crystal frequency:  40MHz
+USB mode:           USB-Serial/JTAG
+MAC:                98:88:e0:11:9f:08
+
+Uploading stub flasher...
+Running stub flasher...
+Stub flasher running.
+Changing baud rate to 460800...
+Changed.
+
+Configuring flash size...
+
+Writing 'bootloader/bootloader.bin' at 0x00000000...
+SHA digest in image updated.
+Flash will be erased from 0x00000000 to 0x00004fff...
+Compressed 18896 bytes to 12266...
+Writing at 0x000049d0 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 11.98kB/11.98kB [0s] 
+Wrote 18896 bytes (12266 compressed) at 0x00000000 in 0.4 seconds (345.4 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Writing 'partition_table/partition-table.bin' at 0x00008000...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 3072 bytes to 103...
+Writing at 0x00008c00 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 103B/103B [0s] 
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (300.3 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Writing 'lsm6dsv16x_test.bin' at 0x00010000...
+Flash will be erased from 0x00010000 to 0x00044fff...
+Compressed 216544 bytes to 119889...
+Writing at 0x0001b9b3 ━━━━                            13.7% 16.00kB/117.08kB [0s] 
+Writing at 0x00023a61 ━━━━━━━━                        27.3% 32.00kB/117.08kB [0s] 
+Writing at 0x00029fda ━━━━━━━━━━━━                    41.0% 48.00kB/117.08kB [0s] 
+Writing at 0x0003045c ━━━━━━━━━━━━━━━━                54.7% 64.00kB/117.08kB [0s] 
+Writing at 0x00036494 ━━━━━━━━━━━━━━━━━━━━            68.3% 80.00kB/117.08kB [1s] 
+Writing at 0x0003c535 ━━━━━━━━━━━━━━━━━━━━━━━━╸       82.0% 96.00kB/117.08kB [1s] 
+Writing at 0x000428e8 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   95.7% 112.00kB/117.08kB [1s] 
+Writing at 0x00044de0 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 117.08kB/117.08kB [1s] 
+Wrote 216544 bytes (119889 compressed) at 0x00010000 in 1.7 seconds (1017.5 kbit/s).
+Verifying written data...
+Hash of data verified.
+
+Hard resetting via RTS pin...
+Done
+serial evidence: evidence/2026-11-02-field/stage2-final.raw
+$ idf.py -b 460800 -p /dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00 flash
+readback evidence: /home/paxon/ESP32Projects/LSM6DSV16X-GYtest/.claude/worktrees/dual-spi/build/verify/readback-ghsgjv26/flash_verify.bin
+image verified: 216544 bytes at 0x10000 match
+  | I (172) main_task: Started on CPU0
+  | I (197) main_task: Calling app_main()
+  | BUS_CONFIG khz=1000 units=11 mode=test
+  | BOOT_EPOCH 17
+  | BUS profile=evta-dual units=11
+  | BUS_BIND 0 B cs=1
+  | BUS_BIND 1 A cs=2
+  | BUS_BIND 2 A cs=4
+  | BUS_BIND 3 A cs=5
+  | BUS_BIND 4 A cs=6
+  | BUS_BIND 5 A cs=7
+  | BUS_BIND 6 A cs=8
+  | BUS_BIND 7 B cs=9
+  | BUS_BIND 8 B cs=10
+  | BUS_BIND 9 B cs=14
+  | BUS_BIND 10 B cs=15
+  | I (313) lsm6dsv16x: --- unit 0 (CS GPIO1) ---
+  | I (417) lsm6dsv16x:   unit 0: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 CTRL6=0x04 CTRL8=0x00 STATUS=0x00
+  | I (1529) lsm6dsv16x:   unit 0 window 1.00s acc=120 gyro=120 expected~120 gx[min=0.42 max=0.98] spi=1000kHz
+  | I (1529) lsm6dsv16x:   unit 0 MCU_READOUT acc=120 gyro=120 gaps=0 max_gap_us=0 (sensor native ODR not measured here)
+  | I (1538) lsm6dsv16x:   unit 0 status hist: 04:881 07:120
+  | I (1543) lsm6dsv16x:   unit 0 gyro bias 0.71 0.03 -0.57 dps
+  | UNIT_RESULT 0 PASS 34/34 raw=0x70 ok
+  | I (1551) lsm6dsv16x: --- unit 1 (CS GPIO2) ---
+  | I (1656) lsm6dsv16x:   unit 1: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 CTRL6=0x04 CTRL8=0x00 STATUS=0x00
+  | I (2768) lsm6dsv16x:   unit 1 window 1.00s acc=119 gyro=119 expected~120 gx[min=-0.42 max=-0.35] spi=1000kHz
+  | I (2768) lsm6dsv16x:   unit 1 MCU_READOUT acc=119 gyro=119 gaps=0 max_gap_us=0 (sensor native ODR not measured here)
+  | I (2777) lsm6dsv16x:   unit 1 status hist: 04:882 07:119
+  | I (2782) lsm6dsv16x:   unit 1 gyro bias -0.38 0.28 0.31 dps
+  | UNIT_RESULT 1 PASS 34/34 raw=0x70 ok
+  | I (2790) lsm6dsv16x: --- unit 2 (CS GPIO4) ---
+  | UNIT_RESULT 2 ABSENT 0/0 raw=0x00 no_device
+  | I (2798) lsm6dsv16x: --- unit 3 (CS GPIO5) ---
+  | UNIT_RESULT 3 ABSENT 0/0 raw=0xFF no_device
+  | I (2806) lsm6dsv16x: --- unit 4 (CS GPIO6) ---
+  | UNIT_RESULT 4 ABSENT 0/0 raw=0x00 no_device
+  | I (2815) lsm6dsv16x: --- unit 5 (CS GPIO7) ---
+  | UNIT_RESULT 5 ABSENT 0/0 raw=0xFF no_device
+  | I (2823) lsm6dsv16x: --- unit 6 (CS GPIO8) ---
+  | UNIT_RESULT 6 ABSENT 0/0 raw=0x00 no_device
+  | I (2831) lsm6dsv16x: --- unit 7 (CS GPIO9) ---
+  | UNIT_RESULT 7 ABSENT 0/0 raw=0x00 no_device
+  | I (2839) lsm6dsv16x: --- unit 8 (CS GPIO10) ---
+  | UNIT_RESULT 8 ABSENT 0/0 raw=0x00 no_device
+  | I (2847) lsm6dsv16x: --- unit 9 (CS GPIO14) ---
+  | UNIT_RESULT 9 ABSENT 0/0 raw=0x00 no_device
+  | I (2855) lsm6dsv16x: --- unit 10 (CS GPIO15) ---
+  | UNIT_RESULT 10 ABSENT 0/0 raw=0x00 no_device
+  | BUS_STATS A tx=1157 err=0
+  | BUS_STATS B tx=1157 err=0
+  | SUMMARY present=2 absent=9 count=11
+  | MATRIX_DONE 11
+
+src  state     checks    WHO  detail
+------------------------------------------------------------------------
+  0  PASS       34/34  0x70   ok
+  1  PASS       34/34  0x70   ok
+  2  ABSENT       0/0  0x00   no_device
+  3  ABSENT       0/0  0xFF   no_device
+  4  ABSENT       0/0  0x00   no_device
+  5  ABSENT       0/0  0xFF   no_device
+  6  ABSENT       0/0  0x00   no_device
+  7  ABSENT       0/0  0x00   no_device
+  8  ABSENT       0/0  0x00   no_device
+  9  ABSENT       0/0  0x00   no_device
+ 10  ABSENT       0/0  0x00   no_device
+
+summary: present=2 absent=9 count=11
+RESULT: PASS — 2 present, 9 absent

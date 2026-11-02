@@ -1,0 +1,36 @@
+{
+  "contract": "EgoGlove EVT-MVP EVT-A A02/A03",
+  "spi_mode": 3,
+  "clock_hz_bringup": 1000000,
+  "buses": {
+    "A": {"host": "SPI2_HOST", "sclk": 12, "mosi": 11, "miso": 13},
+    "B": {"host": "SPI3_HOST", "sclk": 18, "mosi": 21, "miso": 47}
+  },
+  "miso_isolation": {
+    "part": "SN74HC125N",
+    "rule": "each MISO enters a buffer input; only one /OE is low per bus transaction; a series resistor is not isolation",
+    "channels": {
+      "1": {"in": "1A", "out": "1Y", "oe": "1OE", "source": "sid0", "bus": "B", "tie": "1OE <- CS0 (GPIO1)"},
+      "2": {"in": "2A", "out": "2Y", "oe": "2OE", "source": "sid1", "bus": "A", "tie": "2OE <- CS1 (GPIO2)"},
+      "3": {"unused": true, "tie": "3OE -> 3V3, 3A -> GND, 3Y open"},
+      "4": {"unused": true, "tie": "4OE -> 3V3, 4A -> GND, 4Y open"}
+    }
+  },
+  "sources": [
+    {"sid": 0,  "bus": "B", "cs": 1,  "sclk": 18, "mosi": 21, "miso": 47, "gate_channel": 1},
+    {"sid": 1,  "bus": "A", "cs": 2,  "sclk": 12, "mosi": 11, "miso": 13, "gate_channel": 2},
+    {"sid": 2,  "bus": "A", "cs": 4,  "sclk": 12, "mosi": 11, "miso": 13},
+    {"sid": 3,  "bus": "A", "cs": 5,  "sclk": 12, "mosi": 11, "miso": 13},
+    {"sid": 4,  "bus": "A", "cs": 6,  "sclk": 12, "mosi": 11, "miso": 13},
+    {"sid": 5,  "bus": "A", "cs": 7,  "sclk": 12, "mosi": 11, "miso": 13},
+    {"sid": 6,  "bus": "A", "cs": 8,  "sclk": 12, "mosi": 11, "miso": 13},
+    {"sid": 7,  "bus": "B", "cs": 9,  "sclk": 18, "mosi": 21, "miso": 47},
+    {"sid": 8,  "bus": "B", "cs": 10, "sclk": 18, "mosi": 21, "miso": 47},
+    {"sid": 9,  "bus": "B", "cs": 14, "sclk": 18, "mosi": 21, "miso": 47},
+    {"sid": 10, "bus": "B", "cs": 15, "sclk": 18, "mosi": 21, "miso": 47}
+  ],
+  "cs_pullup_ohm": 10000,
+  "cs_idle_level": 1,
+  "module_pins": {"SCL/SPC": "sclk", "MOSI/SDA/SDI": "mosi", "MISO/SDO": "miso", "CS": "cs", "VCC": "3V3", "GND": "GND"},
+  "forbidden": ["5V on GY VCC", "GPIO19/20", "CS overlap with bus pins", "hot-plug IMU while powered"]
+}

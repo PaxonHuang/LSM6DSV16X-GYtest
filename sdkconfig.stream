@@ -6,3 +6,11 @@
 # tools/mode.sh wraps that.
 CONFIG_RUN_MODE_STREAM=y
 CONFIG_STREAM_HZ=50
+
+# The default primary console is UART0 at 115200, and IDF mirrors it to the
+# USB-JTAG port. That mirror caps stdout at ~18 KB/s, so a 50 Hz NDJSON feed
+# backpressures to ~17 Hz regardless of SPI rate. Stream mode writes to the
+# native USB console directly; this is a link change, not a sensor/clock change.
+CONFIG_ESP_CONSOLE_UART_DEFAULT=n
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y

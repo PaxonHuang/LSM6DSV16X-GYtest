@@ -1,0 +1,112 @@
+{
+  "frames": 2993,
+  "non_frame_lines": 17,
+  "span_s": 59.829,
+  "frame_rate_hz": 50.03,
+  "boot_epochs": [
+    11
+  ],
+  "boot_changes": 0,
+  "mcu_time_regressions": 0,
+  "arrival_interval_us": {
+    "median": 20000.2475,
+    "p95": 20335.5,
+    "max": 21796.228,
+    "gap_limit": 100000.0,
+    "gaps": 0,
+    "max_gap_us": 0.0
+  },
+  "backpressure": {
+    "late_last": 0,
+    "mwus_max_all_frames": 1894
+  },
+  "sources": {
+    "0": {
+      "frames": 2993,
+      "new_samples": 221,
+      "snapshot_frames": 2772,
+      "valid_ratio": 0.07383895756765786,
+      "seq_first": 1,
+      "seq_last": 221,
+      "seq_gaps": 0,
+      "read_rate_hz": 3.677129836227017,
+      "mcu_read_interval_us": {
+        "median": 19999.5,
+        "p95": 21001,
+        "max": 21002
+      },
+      "errors_delta": 1,
+      "duplicate_delta": 0,
+      "snapshot_counter_delta": 2772
+    },
+    "1": {
+      "frames": 2993,
+      "new_samples": 2993,
+      "snapshot_frames": 0,
+      "valid_ratio": 1.0,
+      "seq_first": 1,
+      "seq_last": 2993,
+      "seq_gaps": 0,
+      "read_rate_hz": 50.008965772687425,
+      "mcu_read_interval_us": {
+        "median": 20002.5,
+        "p95": 20017,
+        "max": 21055
+      },
+      "errors_delta": 0,
+      "duplicate_delta": 0,
+      "snapshot_counter_delta": 0
+    }
+  },
+  "windows": [
+    {
+      "start_s": 0.0,
+      "frames": 501,
+      "new_samples": {
+        "0": 221,
+        "1": 501
+      }
+    },
+    {
+      "start_s": 10.0,
+      "frames": 500,
+      "new_samples": {
+        "1": 500
+      }
+    },
+    {
+      "start_s": 20.0,
+      "frames": 500,
+      "new_samples": {
+        "1": 500
+      }
+    },
+    {
+      "start_s": 30.0,
+      "frames": 500,
+      "new_samples": {
+        "1": 500
+      }
+    },
+    {
+      "start_s": 40.0,
+      "frames": 500,
+      "new_samples": {
+        "1": 500
+      }
+    },
+    {
+      "start_s": 50.0,
+      "frames": 492,
+      "new_samples": {
+        "1": 492
+      }
+    }
+  ],
+  "time_semantics": {
+    "sensor_sample_time": "unknown",
+    "mcu_read_time": "frame.u[].mt (esp_timer \u00b5s)",
+    "mcu_transmit_time": "frame.t (ms)",
+    "host_receive_time": "frame.host_ns (time.monotonic_ns)"
+  }
+}

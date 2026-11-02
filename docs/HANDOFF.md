@@ -1,3 +1,54 @@
+# 2026-11-02 — field stage 2 PASS (sid0/B + sid1/A), 60 s at 50 Hz
+
+- Branch `feat/dual-spi-evt-a`, worktree `.claude/worktrees/dual-spi`; local
+  commits only, nothing pushed.
+- Board identity moved: the Espressif unit is now `/dev/ttyACM0`
+  (`usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00`); the
+  Hikvision camera is `/dev/ttyACM1`. Always use the by-id path.
+- **Health test PASS:** sid0 (bus B, CS GPIO1) and sid1 (bus A, CS GPIO2) both
+  `34/34`, `WHO_AM_I=0x70`; `BUS_STATS A tx=1157 err=0`, `B tx=1157 err=0`;
+  flash readback 216544 B at 0x10000 matched.
+- **60 s stream PASS (rerun):** 2994 frames in 59.86 s = 50.02 Hz, both sources
+  2994 new samples, valid ratio 1.000, 0 seq gaps, 0 errors, 0 duplicates, no
+  reboot, no host arrival gap; `late=0`, max write 1972 µs.
+- **First 60 s run failed** (preserved): source 0 stopped after 221 samples at
+  t=4.65 s on one read error, then the sticky first-error stop parked it;
+  source 1 stayed at 50 Hz. Not reproduced. The frame now carries `es`/`eb`/`ep`
+  error-class counters, and stream mode re-inits a parked source once per
+  second (`RECOVER n`), while TEST mode still stops at the first error.
+- **Console fix:** the default UART0 console mirror capped stdout at ~18 KB/s,
+  so a 50 Hz feed backpressured to 17.1 Hz even at 921600 host baud. Stream
+  mode now uses the native USB-Serial/JTAG console directly
+  (`sdkconfig.stream`), reaching 50 Hz with max write < 2 ms. This is a link
+  change, not a clock or threshold change.
+- Evidence: `evidence/2026-11-02-field/` (`stage2-final.log/raw`,
+  `stream-2src-60s-r2.jsonl/raw`, `stream-2src-60s.jsonl` first run,
+  `stream-2src-60s-r2-analysis.json`, `result.json`, `build*.log`).
+- Machine-checkable pinmap: `docs/evt-a-pinmap.json`.
+
+**Next action — physical, stage 3 (6 sources: sid 0,1,2,3,4,7):**
+
+Power off before changing wires. Stage 3 needs **six** isolated MISO gates
+(sid0,1,2,3,4,7), so a second SN74HC125N is required; the 2-source build uses
+only channels 1–2 of the first package. Do not put two sensor MISO pins on one
+gate input.
+
+Then run:
+
+```bash
+. ~/.espressif/v6.0.2/esp-idf/export.sh
+PORT=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00
+tools/mode.sh test && tools/build.sh
+python3 tools/run_tests.py --port "$PORT" --expect-sources 0,1,2,3,4,7 \
+    --raw evidence/<new-date>/stage3.raw
+```
+
+Stop on any failure. Only after a clean 6-source health run, switch to
+`tools/mode.sh stream` + `tools/stream_capture.py --duration 60` and analyze
+with `tools/analyze_stream.py`.
+
+---
+
 # 2026-10-30 — EVT-A dual-SPI built; field stage 2 ran, 0/11 sources answered
 
 - Repo `/home/paxon/ESP32Projects/LSM6DSV16X-GYtest`, worktree branch

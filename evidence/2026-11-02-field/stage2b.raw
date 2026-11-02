@@ -1,0 +1,50 @@
+BUS_CONFIG khz=1000 units=11 mode=test
+BOOT_EPOCH 3
+BUS profile=evta-dual units=11
+BUS_BIND 0 B cs=1
+BUS_BIND 1 A cs=2
+BUS_BIND 2 A cs=4
+BUS_BIND 3 A cs=5
+BUS_BIND 4 A cs=6
+BUS_BIND 5 A cs=7
+BUS_BIND 6 A cs=8
+BUS_BIND 7 B cs=9
+BUS_BIND 8 B cs=10
+BUS_BIND 9 B cs=14
+BUS_BIND 10 B cs=15
+I (318) lsm6dsv16x: --- unit 0 (CS GPIO1) ---
+I (422) lsm6dsv16x:   unit 0: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 CTRL6=0x04 CTRL8=0x00 STATUS=0x00
+I (1534) lsm6dsv16x:   unit 0 window 1.00s acc=120 gyro=120 expected~120 gx[min=0.35 max=1.12] spi=1000kHz
+I (1534) lsm6dsv16x:   unit 0 MCU_READOUT acc=120 gyro=120 gaps=0 max_gap_us=0 (sensor native ODR not measured here)
+I (1543) lsm6dsv16x:   unit 0 status hist: 04:881 07:120 
+I (1548) lsm6dsv16x:   unit 0 gyro bias 0.70 0.03 -0.57 dps
+UNIT_RESULT 0 PASS 34/34 raw=0x70 ok
+I (1556) lsm6dsv16x: --- unit 1 (CS GPIO2) ---
+I (1661) lsm6dsv16x:   unit 1: CTRL1=0x06 CTRL2=0x06 CTRL3=0x44 CTRL6=0x04 CTRL8=0x00 STATUS=0x00
+I (2773) lsm6dsv16x:   unit 1 window 1.00s acc=119 gyro=119 expected~120 gx[min=-0.49 max=-0.28] spi=1000kHz
+I (2773) lsm6dsv16x:   unit 1 MCU_READOUT acc=119 gyro=119 gaps=0 max_gap_us=0 (sensor native ODR not measured here)
+I (2782) lsm6dsv16x:   unit 1 status hist: 04:882 07:119 
+I (2787) lsm6dsv16x:   unit 1 gyro bias -0.37 0.28 0.31 dps
+UNIT_RESULT 1 PASS 34/34 raw=0x70 ok
+I (2795) lsm6dsv16x: --- unit 2 (CS GPIO4) ---
+UNIT_RESULT 2 ABSENT 0/0 raw=0x00 no_device
+I (2803) lsm6dsv16x: --- unit 3 (CS GPIO5) ---
+UNIT_RESULT 3 ABSENT 0/0 raw=0xFF no_device
+I (2811) lsm6dsv16x: --- unit 4 (CS GPIO6) ---
+UNIT_RESULT 4 ABSENT 0/0 raw=0x00 no_device
+I (2820) lsm6dsv16x: --- unit 5 (CS GPIO7) ---
+UNIT_RESULT 5 ABSENT 0/0 raw=0x00 no_device
+I (2828) lsm6dsv16x: --- unit 6 (CS GPIO8) ---
+UNIT_RESULT 6 ABSENT 0/0 raw=0xFF no_device
+I (2836) lsm6dsv16x: --- unit 7 (CS GPIO9) ---
+UNIT_RESULT 7 ABSENT 0/0 raw=0x00 no_device
+I (2844) lsm6dsv16x: --- unit 8 (CS GPIO10) ---
+UNIT_RESULT 8 ABSENT 0/0 raw=0x00 no_device
+I (2852) lsm6dsv16x: --- unit 9 (CS GPIO14) ---
+UNIT_RESULT 9 ABSENT 0/0 raw=0x00 no_device
+I (2860) lsm6dsv16x: --- unit 10 (CS GPIO15) ---
+UNIT_RESULT 10 ABSENT 0/0 raw=0x00 no_device
+BUS_STATS A tx=1157 err=0
+BUS_STATS B tx=1157 err=0
+SUMMARY present=2 absent=9 count=11
+MATRIX_DONE 11

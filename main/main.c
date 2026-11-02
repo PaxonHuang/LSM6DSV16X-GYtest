@@ -44,6 +44,7 @@
 
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
+#include "esp_attr.h"
 #include "esp_log.h"
 #include "esp_rom_gpio.h"
 #include "esp_timer.h"
@@ -105,10 +106,38 @@ typedef struct {
     uint8_t          who_am_i;
     uint8_t          misses;
     uint32_t         errors;
+    uint32_t         err_status;   /* STATUS read failed */
+    uint32_t         err_block;    /* output-block transfer failed */
+    uint32_t         err_plaus;    /* block read but implausible */
+    bool             parked;       /* first-error stop (health test policy) */
+    int64_t          last_recover_us;
     uint32_t         samples_a;
     uint32_t         samples_g;
+    uint32_t         dup;          /* identical payload while DRDY was set */
+    uint32_t         snaps;        /* frames with no fresh sample */
+    int64_t          last_read_us; /* MCU monotonic time of the last read */
+    uint8_t          last_blk[12];
+    bool             have_last_blk;
     bool             sflp_ok;
 } imu_unit_t;
+
+/* Boot epoch: counts MCU resets while the RTC domain stays powered. It is not
+ * a power-cycle counter; a capture that starts after a reset establishes the
+ * baseline, and any later change means the MCU rebooted mid-run. */
+#define BOOT_EPOCH_MAGIC 0x45565442u /* "EVTB" */
+RTC_NOINIT_ATTR static uint32_t s_boot_magic;
+RTC_NOINIT_ATTR static uint32_t s_boot_epoch;
+
+static uint32_t boot_epoch_next(void)
+{
+    if (s_boot_magic != BOOT_EPOCH_MAGIC) {
+        s_boot_magic = BOOT_EPOCH_MAGIC;
+        s_boot_epoch = 0;
+    }
+    return ++s_boot_epoch;
+}
+
+static uint32_t s_boot_epoch_now;
 
 /* One independent transport per SPI host: its own device handle, its own CS
  * routing state and its own counters. Two tasks on different hosts never share
@@ -537,14 +566,16 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
 {
     *have_acc = false;
     *have_gyro = false;
-    if (u->errors != 0) {
-        return false; /* sticky first-error stop; no recovery within a run */
+    if (u->parked) {
+        return false; /* first-error stop until stream mode re-inits */
     }
     /* Read STATUS as a raw byte: the bit-field view is fine for control but
      * hides which exact flag was set when a frame looks corrupt. */
     uint8_t st = 0;
     if (lsm6dsv16x_read_reg(&u->ctx, LSM6DSV16X_STATUS_REG, &st, 1) != 0) {
         u->errors++;
+        u->err_status++;
+        u->parked = true;
         return false;
     }
     s_st_hist[st]++;
@@ -582,6 +613,8 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
             }
             if (rc != 0) {
                 u->errors++;
+                u->err_block++;
+                u->parked = true;
                 return false;
             }
 #ifdef CONFIG_DUMP_BLOCK
@@ -608,6 +641,17 @@ static bool read_sample(imu_unit_t *u, float acc_g[3], float gyro_dps[3],
             valid = a2 > 3300LL * 3300 && a2 < 49000LL * 49000;
             if (!valid) {
                 u->errors++;
+                u->err_plaus++;
+                u->parked = true;
+            } else {
+                /* Identical bytes while DRDY is set mean the host re-read a
+                 * sample the sensor had already published. */
+                if (u->have_last_blk && memcmp(u->last_blk, buf, 12) == 0) {
+                    u->dup++;
+                }
+                memcpy(u->last_blk, buf, 12);
+                u->have_last_blk = true;
+                u->last_read_us = esp_timer_get_time();
             }
         }
         if (!valid) {
@@ -914,6 +958,30 @@ static bool stream_init_unit(imu_unit_t *u)
     return true;
 }
 
+/* Stream mode keeps the source alive across a transient bus fault. The health
+ * test still stops at the first error (never retry into PASS); here the error
+ * counters stay cumulative and the re-init is announced, so a flaky assembly
+ * shows up as a RECOVER rate rather than a silently dead source. */
+static void stream_recover_unit(int index)
+{
+    imu_unit_t *u = &s_units[index];
+    uint32_t errors = u->errors;
+    uint32_t es = u->err_status, eb = u->err_block, ep = u->err_plaus;
+
+    u->parked = false;
+    u->have_last_blk = false;
+    u->sflp_ok = false;
+    if (stream_init_unit(u)) {
+        printf("RECOVER %d errors=%u es=%u eb=%u ep=%u\n", index,
+               (unsigned)errors, (unsigned)es, (unsigned)eb, (unsigned)ep);
+    } else {
+        u->present = false;
+        printf("HOTPLUG %d REMOVED\n", index);
+    }
+    fflush(stdout);
+    u->last_recover_us = esp_timer_get_time();
+}
+
 /* Re-check identity so a source that is unplugged stops being reported and a
  * newly plugged source is picked up. Returns true if the state changed. */
 static bool hotplug_step(int index)
@@ -970,9 +1038,10 @@ static void run_stream(void)
          * every printf became its own USB transfer. */
         static char buf[4096];
         int off = snprintf(buf, sizeof(buf),
-                           "{\"t\":%lld,\"f\":%u,\"late\":%u,\"mwus\":%lld,\"u\":[",
+                           "{\"t\":%lld,\"f\":%u,\"b\":%u,\"late\":%u,\"mwus\":%lld,\"u\":[",
                            (long long)(esp_timer_get_time() / 1000),
-                           (unsigned)frames, (unsigned)late,
+                           (unsigned)frames, (unsigned)s_boot_epoch_now,
+                           (unsigned)late,
                            (long long)max_write_us);
         bool first = true;
         for (int i = 0; i < CONFIG_UNIT_COUNT; i++) {
@@ -986,8 +1055,14 @@ static void run_stream(void)
             float q[4] = { 0, 0, 0, 1 };
             bool  have_q = false;
 
+            if (u->present && u->parked &&
+                esp_timer_get_time() - u->last_recover_us >= 1000000) {
+                stream_recover_unit(i);
+            }
             if (u->present) {
-                read_sample(u, acc, gyro, &have_acc, &have_gyro);
+                if (!read_sample(u, acc, gyro, &have_acc, &have_gyro)) {
+                    u->snaps++;
+                }
                 if (u->sflp_ok) {
                     drain_fifo(u, q, &have_q);
                 }
@@ -1003,12 +1078,18 @@ static void run_stream(void)
 
             off += snprintf(buf + off, sizeof(buf) - off,
                    "%s{\"i\":%d,\"on\":1,\"id\":%d,\"cs\":%d,\"e\":%u,"
-                   "\"na\":%u,\"ng\":%u,"
+                   "\"es\":%u,\"eb\":%u,\"ep\":%u,"
+                   "\"na\":%u,\"ng\":%u,\"sq\":%u,\"mt\":%lld,\"d\":%u,\"sk\":%u,"
                    "\"a\":[%.3f,%.3f,%.3f],\"g\":[%.3f,%.3f,%.3f],"
                    "\"q\":[%.4f,%.4f,%.4f,%.4f],\"aq\":%d,\"va\":%d,\"vg\":%d}",
                    first ? "" : ",", i, u->who_am_i, u->cs,
-                   (unsigned)u->errors, (unsigned)u->samples_a,
-                   (unsigned)u->samples_g,
+                   (unsigned)u->errors,
+                   (unsigned)u->err_status, (unsigned)u->err_block,
+                   (unsigned)u->err_plaus,
+                   (unsigned)u->samples_a,
+                   (unsigned)u->samples_g, (unsigned)u->samples_a,
+                   (long long)u->last_read_us, (unsigned)u->dup,
+                   (unsigned)u->snaps,
                    acc[0], acc[1], acc[2], gyro[0], gyro[1], gyro[2],
                    q[0], q[1], q[2], q[3],
                    have_q ? 1 : 0, have_acc ? 1 : 0, have_gyro ? 1 : 0);
@@ -1350,6 +1431,7 @@ static void run_diag(void)
 void app_main(void)
 {
     vTaskDelay(pdMS_TO_TICKS(100));
+    s_boot_epoch_now = boot_epoch_next();
 
 #if CONFIG_RUN_MODE_DIAG
     run_diag();
@@ -1365,6 +1447,7 @@ void app_main(void)
     }
     printf("BUS_CONFIG khz=%d units=%d mode=test\n", CONFIG_IMU_SPI_KHZ,
            CONFIG_UNIT_COUNT);
+    printf("BOOT_EPOCH %u\n", (unsigned)s_boot_epoch_now);
     print_bus_plan();
 
 #if CONFIG_RUN_MODE_STREAM

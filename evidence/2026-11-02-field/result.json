@@ -1,0 +1,69 @@
+{
+  "stage": "field-stage-2",
+  "date": "2026-11-02",
+  "repo": "/home/paxon/ESP32Projects/LSM6DSV16X-GYtest",
+  "branch": "feat/dual-spi-evt-a",
+  "head_commit": "f09a3ff",
+  "device": {
+    "by_id": "usb-Espressif_USB_JTAG_serial_debug_unit_98:88:E0:11:9F:08-if00",
+    "resolves_to": "/dev/ttyACM0",
+    "note": "swapped relative to the 2026-10-30 handoff; always use by-id"
+  },
+  "config": {
+    "bus_profile": "evta-dual",
+    "spi_clock_hz": 1000000,
+    "unit_count": 11,
+    "expected_sources": [0, 1],
+    "bus_a": {"host": "SPI2", "sclk": 12, "mosi": 11, "miso": 13, "owns": [1, 2, 3, 4, 5, 6]},
+    "bus_b": {"host": "SPI3", "sclk": 18, "mosi": 21, "miso": 47, "owns": [0, 7, 8, 9, 10]},
+    "cs_gpio": {"0": 1, "1": 2, "2": 4, "3": 5, "4": 6, "5": 7, "6": 8, "7": 9, "8": 10, "9": 14, "10": 15}
+  },
+  "images": {
+    "test": {"file": "build/lsm6dsv16x_test.bin", "bytes": 216544, "sha256": "92096df3086e0dd6020653cbb7e148709c57467fbe421a445af2c9cfdaee7999"},
+    "stream": {"file": "build-stream/lsm6dsv16x_test.bin", "bytes": 214640, "sha256": "1761cde7914a8047aa2b9281bd6831bed35ea1f8f776e4f6422c9648da6936b7"},
+    "stream_console": "USB-Serial/JTAG primary (UART0 mirror removed in stream overlay)"
+  },
+  "health": {
+    "raw": "evidence/2026-11-02-field/stage2-final.raw",
+    "raw_sha256": "8644b4b167758cec452c4bc5be7e6dd2e98d3b5569c1792d89fac728b728706a",
+    "flash_readback": "216544 bytes at 0x10000 match",
+    "result": "PASS",
+    "present": 2,
+    "absent": 9,
+    "sources": {
+      "0": {"bus": "B", "cs": 1, "state": "PASS", "checks": "34/34", "who_am_i": "0x70"},
+      "1": {"bus": "A", "cs": 2, "state": "PASS", "checks": "34/34", "who_am_i": "0x70"}
+    },
+    "bus_stats": {"A": {"tx": 1157, "err": 0}, "B": {"tx": 1157, "err": 0}}
+  },
+  "stream_60s": {
+    "raw": "evidence/2026-11-02-field/stream-2src-60s-r2.jsonl",
+    "raw_sha256": "67746116c28d84d009b3a0e729b54829c7c26ee842cf09515f87d4abccbf1887",
+    "bytes_raw_serial": "evidence/2026-11-02-field/stream-2src-60s-r2.raw",
+    "frames": 2994,
+    "span_s": 59.86,
+    "frame_rate_hz": 50.02,
+    "boot_epochs": [14],
+    "boot_changes": 0,
+    "mcu_time_regressions": 0,
+    "usb_arrival_gaps": 0,
+    "backpressure": {"late": 0, "mwus_max_us": 1972},
+    "sources": {
+      "0": {"new_samples": 2994, "valid_ratio": 1.0, "seq_gaps": 0, "errors_delta": 0, "duplicate_delta": 0, "read_rate_hz": 50.0},
+      "1": {"new_samples": 2994, "valid_ratio": 1.0, "seq_gaps": 0, "errors_delta": 0, "duplicate_delta": 0, "read_rate_hz": 50.0}
+    }
+  },
+  "stream_60s_first_run": {
+    "raw": "evidence/2026-11-02-field/stream-2src-60s.jsonl",
+    "raw_sha256": "032777cc1e82955d064fecc5f50be87afd1d81b36ba693e1b685f8a568e20d1a",
+    "result": "FAIL (source 0 parked)",
+    "detail": "source 0 stopped after 221 new samples at t=4.65 s; one read error, then sticky first-error stop. Source 1 stayed 50 Hz. Not reproduced in the rerun; error-type counters (es/eb/ep) and stream recovery were added.",
+    "console": "UART0 primary mirror limited the run to 17.1 Hz; stream overlay now uses the native USB console (50 Hz, mwus < 2 ms)."
+  },
+  "verdict": "STAGE-2 PASS on the bench: 2/2 sources, dual bus, 74HC125 MISO isolation, 60 s continuous at 50 Hz with no errors. 6- and 11-source stages not yet run.",
+  "limits": [
+    "bench breadboard only; not a PCB manufacturing or synchronization qualification",
+    "sensor native sample time is unknown; MCU read time is not sensor timing",
+    "one transient read error occurred in the first 60 s run and was not reproduced; classification counters are now in the frame"
+  ]
+}

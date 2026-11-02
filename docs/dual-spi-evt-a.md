@@ -92,11 +92,34 @@ sampling cadence. Native timing needs FIFO/timestamp analysis.
 
 Stage 2 was attempted on 2026-10-30: flash readback verified, both buses
 transacted with `err=0`, but **0/11 sources answered** (bus A `0xFF`, bus B
-`0x00`). Result FAIL; 6/11 were not attempted. See
-`evidence/2026-10-30-field/result.json`. Resolve the physical population/power
-and bus-pin mapping before rerunning.
+`0x00`). That run used the old wiring; the 2-source breadboard guide had not
+been applied.
 
-Identify the test board by-id first; `/dev/ttyACM0` is the Hikvision camera.
+**2026-11-02 stage 2 PASS** with the `breadboard-2-source-evt-a` wiring:
+sid0 (B) and sid1 (A) both `34/34`, `WHO_AM_I=0x70`, `BUS_STATS` `err=0`, and a
+60 s stream at 50 Hz with zero errors/gaps. Evidence in
+`evidence/2026-11-02-field/`.
+
+Stream evidence path:
+
+```bash
+tools/mode.sh stream && tools/build.sh
+python3 tools/stream_capture.py --port "$PORT" --duration 60 \
+    --out evidence/<date>/stream.jsonl --raw evidence/<date>/stream.raw
+python3 tools/analyze_stream.py --input evidence/<date>/stream.jsonl \
+    --window 10 --out evidence/<date>/stream-analysis.json
+```
+
+`analyze_stream.py` is deterministic: it reads only the capture file. Time
+semantics stay separate — sensor sample time is `unknown`, MCU read time is
+`u.mt`, MCU transmit time is `t`, host receive time is `host_ns`.
+
+Stream mode uses the native USB-Serial/JTAG console (`sdkconfig.stream`).
+The default UART0 mirror limits stdout to about 18 KB/s, which backpressures a
+50 Hz NDJSON feed to ~17 Hz regardless of SPI rate.
+
+Identify the test board by-id first; `/dev/ttyACM0` is the Espressif unit on
+2026-11-02, but that assignment changed from 2026-10-30, so never hard-code it.
 
 ```bash
 . ~/.espressif/v6.0.2/esp-idf/export.sh
@@ -110,6 +133,13 @@ python3 tools/run_tests.py --port "$PORT" --expect 6    # sid 0..5
 # only after a clean 6-source run:
 python3 tools/run_tests.py --port "$PORT" --expect 11   # sid 0..10
 ```
+
+Per-source semantics in stream frames: `sq` is the accelerometer sample
+sequence, `mt` the MCU read time (µs), `d` repeated payloads while DRDY was
+set, `sk` frames with no fresh sample (output snapshot), `es`/`eb`/`ep`
+STATUS-transfer / block-transfer / plausibility error counts. A parked source is
+re-initialised at most once per second and announces `RECOVER <sid>`; TEST mode
+keeps the first-error stop.
 
 Save each raw capture under a new dated `evidence/` directory. `run_tests.py`
 already allocates a new `capture-*.raw` and aborts on flash readback mismatch.
