@@ -31,7 +31,7 @@
 Power off before changing wires. Stage 3 needs **six** isolated MISO gates
 (sid0,1,2,3,4,7), so a second SN74HC125N is required; the 2-source build uses
 only channels 1–2 of the first package. Do not put two sensor MISO pins on one
-gate input.
+gate input. Pin-level additions: `docs/breadboard-6-source-evt-a.md`.
 
 Then run:
 
