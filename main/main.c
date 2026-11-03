@@ -787,6 +787,9 @@ static void test_static_window(imu_unit_t *u, test_ctx_t *t)
     }
     ESP_LOGI(TAG, "  unit %d status hist: %s", (int)(u - s_units),
              ho ? hist : "(none)");
+    ESP_LOGI(TAG, "  unit %d errors total=%u es=%u eb=%u ep=%u parked=%d",
+             (int)(u - s_units), (unsigned)u->errors, (unsigned)u->err_status,
+             (unsigned)u->err_block, (unsigned)u->err_plaus, (int)u->parked);
 
     check(t, got_acc >= expected * 4 / 5, "only %d accel samples (~%d)", got_acc,
           expected);
