@@ -21,7 +21,10 @@
 | 12 4A | GND | **sid3 MISO/SDO** | sid3 输入 |
 | 11 4Y | 悬空 | **A_MISO 网络 (GPIO13)** | sid3 输出 |
 
-U1 通道 1/2（sid0/sid1）保持不动。多个 3Y/4Y 并到同一 A_MISO 是允许的：
+U1 通道 1/2 的 /OE（p4/p1）和 A（p5/p2）不动；但两个 Y 输出要改道：
+p3 从直连 GPIO47 改跳线到 row 11 下，p6 从直连 GPIO13 改跳线到 row 11 上。
+理由见下：row 11 上/下分别是 A_MISO / B_MISO 的汇流节点，GPIO13/GPIO47 也落在
+那里。多个 3Y/4Y 并到同一 A_MISO 是允许的：
 同一时刻只有一个 /OE 为低。
 
 ## 2. 新增 U2（SN74HC125N，缺口朝上，面包板 row 12–18）
