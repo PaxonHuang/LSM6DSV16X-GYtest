@@ -45,8 +45,8 @@ SID_OF = {v: k for k, v in GATE.items()}
 # fixed breadboard rows shared by every stage
 ROW_SCLK, ROW_MOSI, ROW_MISO, ROW_MISO2 = 9, 10, 11, 19
 
-STAGES = [
-    dict(key="s2", label="2 源", sids=[0, 1], pkgs=[1],
+STAGES: list[dict] = [
+    dict(key="s2", label="2 源", sids=[0, 1], pkgs=[1], direct=True,
          expect="0,1", bench="阶段 A（已验证）"),
     dict(key="s6", label="6 源", sids=[0, 1, 2, 3, 4, 7], pkgs=[1, 2],
          expect="0,1,2,3,4,7", bench="阶段 B（下一步实测）"),
@@ -91,7 +91,13 @@ def y_targets(st):
 
     Row 11 holds five holes per half: one for the DevKit wire, four for gate
     outputs. Anything beyond that spills to row 19, which is jumpered to row 11.
+
+    Stage A has one gate per bus, so it wires each output straight to the
+    DevKit pin with no collection row. That is the build that was measured
+    and passed; keeping it here keeps the document honest about what exists.
     """
+    if st.get("direct"):
+        return {}
     out = {}
     for bus in ("A", "B"):
         pins = sorted(((half_pin(*GATE[s])[0], half_pin(*GATE[s])[1], s)
@@ -123,6 +129,10 @@ def cell(pkg: int, pin: int, st):
         if role == "a":
             return f"SID{sid}_MISO", [f"U{pkg} p{pin} {ch}A",
                                       f"← 模块 sid{sid} SDO"]
+        if st.get("direct"):
+            return f"{BUS[sid]}_MISO", [
+                f"U{pkg} p{pin} {ch}Y",
+                f"→ 直连 DevKit GPIO{BUSPINS[BUS[sid]]['miso']}"]
         row, half = st["_yt"][sid]
         side = "上" if half == "u" else "下"
         return f"{BUS[sid]}_MISO", [f"U{pkg} p{pin} {ch}Y",
@@ -150,10 +160,11 @@ def breadboard_rows(st):
         "A_MOSI", [f"GPIO{BUSPINS['A']['mosi']}", "→ bus A 各模块 SDA"])
     rows[ROW_MOSI]["l"] = (
         "B_MOSI", [f"GPIO{BUSPINS['B']['mosi']}", "→ bus B 各模块 SDA"])
-    rows.setdefault(ROW_MISO, {})["u"] = (
-        "A_MISO", [f"GPIO{BUSPINS['A']['miso']}", "各 A 门 Y 汇流（≤4 个）"])
-    rows[ROW_MISO]["l"] = (
-        "B_MISO", [f"GPIO{BUSPINS['B']['miso']}", "各 B 门 Y 汇流（≤4 个）"])
+    if not st.get("direct"):
+        rows.setdefault(ROW_MISO, {})["u"] = (
+            "A_MISO", [f"GPIO{BUSPINS['A']['miso']}", "各 A 门 Y 汇流（≤4 个）"])
+        rows[ROW_MISO]["l"] = (
+            "B_MISO", [f"GPIO{BUSPINS['B']['miso']}", "各 B 门 Y 汇流（≤4 个）"])
     if any(r == str(ROW_MISO2) for r, _ in st["_yt"].values()):
         rows.setdefault(ROW_MISO2, {})["u"] = (
             "A_MISO₂", ["跳线 ↔ row 11 上", "余下 A 门 Y"])
@@ -381,7 +392,6 @@ CS 是高阻浮空；没有上拉，/OE 可能被拉低，多个门同时打开�
 
 def stage_section(st) -> str:
     sids = st["sids"]
-    pkgs = st["pkgs"]
     bA = [s for s in sids if BUS[s] == "A"]
     bB = [s for s in sids if BUS[s] == "B"]
     absent = [s for s in range(11) if s not in sids]
