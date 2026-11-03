@@ -1,70 +1,22 @@
 {
   "stage": "field-stage-3",
   "date": "2026-11-03",
-  "repo": "/home/paxon/ESP32Projects/LSM6DSV16X-GYtest",
-  "branch": "feat/dual-spi-evt-a",
   "result": "FAIL",
-  "config": {
-    "bus_profile": "evta-dual",
-    "spi_clock_hz": 1000000,
-    "unit_count": 11,
-    "expected_sources": [0, 1, 2, 3, 4, 7],
-    "bus_a": {"host": "SPI2", "sclk": 12, "mosi": 11, "miso": 13, "owns": [1, 2, 3, 4, 5, 6]},
-    "bus_b": {"host": "SPI3", "sclk": 18, "mosi": 21, "miso": 47, "owns": [0, 7, 8, 9, 10]},
-    "gate_channels": {
-      "U1": {"1": "sid0", "2": "sid1", "3": "sid2", "4": "sid3"},
-      "U2": {"1": "sid4", "2": "unused", "3": "unused", "4": "sid7"}
-    }
-  },
-  "image": {
-    "file": "build/lsm6dsv16x_test.bin",
-    "bytes": 216544,
-    "sha256": "732852e1cc3be5d8f9629325d0e40de17ebd6794eecae351252e2a0355355487",
-    "build_time": "21:53:11",
-    "flash_readback": "216544 bytes at 0x10000 match"
-  },
-  "runs": [
-    {
-      "raw": "evidence/2026-11-03-field/stage3-health.raw",
-      "raw_sha256": "7142e3f9eacbcba1fdd4b5bc5196a4c9eb4134008ee79890e011dcf82a24ed33",
-      "boot_epoch": 4,
-      "sources": {
-        "0": "PASS 34/34 who=0x70, 120 acc+gyro samples, status hist 04:881 07:120",
-        "1": "ABSENT raw=0x00",
-        "2": "ABSENT raw=0x00",
-        "3": "FAIL 25/32 who=0x70, CTRL readback correct, STATUS=0x00 always, 0 samples",
-        "4": "ABSENT raw=0x00",
-        "7": "ABSENT raw=0x00"
-      },
-      "bus_stats": {"A": {"tx": 37, "err": 0}, "B": {"tx": 1157, "err": 0}},
-      "summary": "present=2 absent=9 count=11"
+  "image": {"bytes": 216544, "sha256": "732852e1cc3be5d8f9629325d0e40de17ebd6794eecae351252e2a0355355487"},
+  "expected_sources": [0, 1, 2, 3, 4, 7],
+  "latest_run": {
+    "raw": "evidence/2026-11-03-field/stage3-r2.raw",
+    "sources": {
+      "0": "PASS 34/34",
+      "1": "FAIL 25/32 who=0x70, config readback ok, STATUS read hit one SPI error",
+      "2": "ABSENT raw=0x00",
+      "3": "ABSENT raw=0x00",
+      "4": "ABSENT raw=0x00",
+      "7": "ABSENT raw=0x00"
     },
-    {
-      "raw": "evidence/2026-11-03-field/stage3-health-r2.raw",
-      "raw_sha256": "d5d2d729dfd3b0a93c68c193ba267173079677baf6458ea2a585e1ee94cac863",
-      "boot_epoch": 5,
-      "note": "same image, no reflash; result is not stable",
-      "sources": {
-        "0": "FAIL 33/34 who=0x70, read errors=1, status hist 04:7 07:2 (first run reached 120 samples)",
-        "1": "ABSENT raw=0x00",
-        "2": "ABSENT raw=0x00",
-        "3": "FAIL 25/32 who=0x70, 0 samples",
-        "4": "ABSENT raw=0x00",
-        "7": "ABSENT raw=0x00"
-      },
-      "bus_stats": {"A": {"tx": 37, "err": 0}, "B": {"tx": 47, "err": 0}},
-      "summary": "present=2 absent=9 count=11"
-    }
-  ],
-  "inference": [
-    "sid0 (bus B, U1 ch1) and sid3 (bus A, U1 ch4) both return a valid WHO_AM_I through the row-11 collection, so both bus MISO nodes, both SPI hosts and the CS routing are electrically sound.",
-    "sid1, sid2, sid4 and sid7 read exactly 0x00, which is a driven low rather than a floating line: their gate is enabled but its input sits near 0 V, or the module behind it is unpowered so SDO drives 0.",
-    "sid3 answers reads but never reports a data-ready bit and produces no sample; that is a sensor/module-level fault, separate from the MISO path.",
-    "sid0 passed 34/34 then failed 33/34 on a rerun of the same image, so the assembly is marginal even on the one path that works."
-  ],
-  "verdict": "STAGE-3 FAIL. 2 of 6 expected sources answer (sid0, sid3) and sid3 produces no samples. Not a firmware or contract defect: the frozen TEST image, BUS_BIND map and CS GPIO map are unchanged from the stage-2 PASS, and sid0/sid3 prove both buses and the collection rows work.",
-  "limits": [
-    "bench breadboard only; no PCB inference",
-    "the failure is a wiring/population observation made through the MCU, not a multimeter measurement"
-  ]
+    "bus_stats": {"A": {"tx": 37, "err": 0}, "B": {"tx": 1157, "err": 0}},
+    "unused_control": "sid6 (tied-off channel on bus A) reads 0xFF, so a floating A_MISO reads high"
+  },
+  "observation": "sid6 reading 0xFF on the same bus shows what an undriven bus looks like. The four dead sources read a steady 0x00, which is a gate that is enabled and driving low, so their /OE and their row-11 output are connected and the fault is on the gate input side: the module SDO wire or the module supply.",
+  "verdict": "not a firmware, contract or collection-row fault; input-side wiring or module power on sid2/3/4/7, plus one transient transfer error on sid1"
 }

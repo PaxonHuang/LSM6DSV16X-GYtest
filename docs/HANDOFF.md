@@ -1,42 +1,32 @@
-# 2026-11-03 — field stage 3 FAIL (6 sources), 2/6 answered
+# 2026-11-03 — field stage 3 FAIL (6 sources)
 
-- Same branch/worktree; local commits only, nothing pushed. Device still at
-  `/dev/ttyACM0` via the Espressif by-id.
-- Rebuilt TEST (216544 B, sha256 `732852e1…`, build time 21:53:11), flash
-  readback matched byte for byte. Firmware, `BUS_BIND` map and CS GPIO map are
-  unchanged from the stage-2 PASS; only the wiring changed.
-- **Result FAIL, twice.** sid0 (bus B, U1 ch1) and sid3 (bus A, U1 ch4) return
-  `WHO_AM_I=0x70`; sid1, sid2, sid4, sid7 read `0x00`. sid3 answers register
-  reads (CTRL1/2/3/6/8 all correct) but `STATUS=0x00` for the whole window and
-  yields no sample. On a rerun of the very same image sid0 went 34/34 → 33/34
-  with one read error, so the assembly is marginal, not just partially wired.
-- **What the failure does and does not prove.** sid0 and sid3 both deliver data
-  through the row-11 collection, so both SPI hosts, both bus MISO nodes, the
-  CS routing and the 74HC125 gating all work. The four dead sources fail
-  per-channel, above the shared bus. This is a wiring/population fault, not a
-  regression in firmware or in the pin contract.
-- Evidence `evidence/2026-11-03-field/` (`stage3-health.raw`,
-  `stage3-health-r2.raw`, `result.json`).
+- TEST image 216544 B, sha256 `732852e1…`, readback matched. Firmware,
+  `BUS_BIND` map and CS GPIO map unchanged from the stage-2 PASS; only wiring
+  changed. Local commits only, nothing pushed.
+- Latest run: sid0 PASS 34/34; sid1 answers `WHO_AM_I=0x70` with correct
+  register readback but yields no sample (one SPI transfer error on STATUS);
+  sid2, sid3, sid4, sid7 read `0x00`.
+- **The bus is proven good:** sid0 alone exercises bus B, its MISO node, CS
+  routing and gating. Same-run control: sid6, a tied-off channel on bus A,
+  reads `0xFF`, so an undriven A_MISO reads high. The four dead sources read a
+  steady `0x00`, i.e. their gate is enabled and driving low — so their /OE and
+  their row-11 output are connected, and the fault is on the gate input side
+  (module SDO wire) or the module supply.
+- Evidence `evidence/2026-11-03-field/` (`stage3-r2.raw`, `result.json`).
 - Doc fix: `docs/breadboard-6-source-evt-a.md` said U1 channels 1/2 stay
-  untouched, which contradicted `docs/evt-a-wiring-2-6-11.html` (both Y outputs
-  must move to row 11). The md now matches the HTML.
+  untouched, contradicting the schematic that moves both Y outputs to row 11.
 
-**Next action — physical, power off, one pass:**
+**Next action — power off, input side only:**
 
-1. Confirm a second SN74HC125N is actually installed as U2, pin14 to 3V3 and
-   pin7 to GND, each with its 100 nF.
-2. Confirm each gate output reaches row 11: U1 p6 → row 11 上, U1 p8 → row 11
-   上, U1 p11 → row 11 上, U2 p3 → row 11 上, U2 p11 → row 11 下.
-   (sid3 works with only p11 in place, so check p6 and p8 first.)
-3. Confirm each /OE reaches its CS: U1 p4→GPIO2, U1 p10→GPIO4, U1 p13→GPIO5,
-   U2 p1→GPIO6, U2 p13→GPIO9.
-4. Confirm each module SDO reaches its gate input: sid1→U1 p5, sid2→U1 p9,
-   sid3→U1 p12, sid4→U2 p2, sid7→U2 p12.
-5. Measure VCC at all six modules, then power off and move the sid3 module into
-   the sid0 position: if it still reports no data it is a bad module, if it
-   works the fault is in the sid3 socket wiring.
+1. Continuity from each module SDO to its gate input: sid2 → U1 p9,
+   sid3 → U1 p12, sid4 → U2 p2, sid7 → U2 p12.
+2. VCC on those four modules. Any module without 3V3 drives SDO low, which is
+   exactly the `0x00` being read.
+3. Swap the known-good sid0 module into the sid2 position: if it still reads
+   `0x00` the wiring is at fault, if it answers the module was.
 
-Then rerun the same command; do not change the clock or the thresholds.
+Do not change the clock or the thresholds, and do not touch row 11 again — it
+is proven working.
 
 ---
 
