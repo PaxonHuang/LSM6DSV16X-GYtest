@@ -24,24 +24,27 @@
 U1 通道 1/2（sid0/sid1）保持不动。多个 3Y/4Y 并到同一 A_MISO 是允许的：
 同一时刻只有一个 /OE 为低。
 
-## 2. 新增 U2（SN74HC125N，缺口朝上）
+## 2. 新增 U2（SN74HC125N，缺口朝上，面包板 row 12–18）
 
 | 引脚 | 连接 | 用途 |
 |---:|---|---|
 | 1 /1OE | **CS4 (GPIO6)** | sid4 门控 |
 | 2 1A | **sid4 MISO/SDO** | sid4 输入 |
 | 3 1Y | **A_MISO (GPIO13)** | sid4 输出 |
-| 4 /2OE | **CS7 (GPIO9)** | sid7 门控 |
-| 5 2A | **sid7 MISO/SDO** | sid7 输入 |
-| 6 2Y | **B_MISO (GPIO47)** | sid7 输出 |
+| 4 /2OE | 3V3 轨 | 未用（sid5）禁用 |
+| 5 2A | GND 轨 | 未用拉低 |
+| 6 2Y | 悬空 | 未用 |
 | 7 GND | GND 轨 | |
 | 8 3Y | 悬空 | 未用 |
 | 9 3A | GND 轨 | 未用拉低 |
-| 10 /3OE | 3V3 轨 | 未用禁用 |
-| 11 4Y | 悬空 | 未用 |
-| 12 4A | GND 轨 | 未用拉低 |
-| 13 /4OE | 3V3 轨 | 未用禁用 |
+| 10 /3OE | 3V3 轨 | 未用（sid6）禁用 |
+| 11 4Y | **B_MISO (GPIO47)** | sid7 输出 |
+| 12 4A | **sid7 MISO/SDO** | sid7 输入 |
+| 13 /4OE | **CS7 (GPIO9)** | sid7 门控 |
 | 14 VCC | 3V3 轨，100 nF 到 GND | |
+
+> sid7 放在 channel 4 而不是 channel 2，是为了让 6 源成为 11 源的严格前缀：
+> 上 11 源时 channel 2/3 直接改成 sid5/sid6，已接好的 sid7 不用动。
 
 ## 3. 四颗新模块
 
@@ -50,10 +53,13 @@ U1 通道 1/2（sid0/sid1）保持不动。多个 3Y/4Y 并到同一 A_MISO 是�
 | 2 | A | 4 | GPIO12 | GPIO11 | U1 pin9 (3A) |
 | 3 | A | 5 | GPIO12 | GPIO11 | U1 pin12 (4A) |
 | 4 | A | 6 | GPIO12 | GPIO11 | U2 pin2 (1A) |
-| 7 | B | 9 | GPIO18 | GPIO21 | U2 pin5 (2A) |
+| 7 | B | 9 | GPIO18 | GPIO21 | U2 pin12 (4A) |
 
 每颗模块：VCC→3V3、GND→GND、CS→上表 GPIO 且 10 kΩ 上拉到 3V3、
 SCL/SPC→SCLK、MOSI/SDA/SDI→MOSI、MISO/SDO→对应门输入。
+
+**完整逐脚原理图、网络清单与面包板逐行表见
+[`evt-a-wiring-2-6-11.html`](evt-a-wiring-2-6-11.html)。**
 
 ## 4. 断电测量检查单（上电前逐项打勾）
 
