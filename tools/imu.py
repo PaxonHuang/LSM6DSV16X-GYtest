@@ -20,6 +20,7 @@ import glob
 import hashlib
 import io
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -272,9 +273,12 @@ def render(cap: Capture, expected: set[int] | None = None) -> str:
 def find_port() -> str:
     ports = sorted(glob.glob(PORT_GLOB))
     if not ports:
-        raise SystemExit(f"没有找到 Espressif 串口（{PORT_GLOB}）。")
+        raise SystemExit(
+            "没有找到 Espressif 串口。\n"
+            "  检查：板子插好了吗？USB 线是不是只能充电不传数据？\n"
+            "  插好后用这条命令确认：ls /dev/serial/by-id/")
     if len(ports) > 1:
-        raise SystemExit("找到多个 Espressif 串口，请用 --port 指定：\n  "
+        raise SystemExit("找到多个 Espressif 串口，用 --port 指定其中一个：\n  "
                          + "\n  ".join(ports))
     return ports[0]
 
@@ -282,15 +286,16 @@ def find_port() -> str:
 def run_stage(stage: str, port: str | None, keep: str | None) -> int:
     expected = STAGES[stage]
     port = port or find_port()
-    tmp = None
+    workdir = None
     if keep:
         raw_path = Path(keep)
         if raw_path.exists():
             raise SystemExit(f"{keep} 已存在，换一个路径。")
     else:
-        tmp = tempfile.NamedTemporaryFile(prefix="imu-", suffix=".raw", delete=False)
-        tmp.close()
-        raw_path = Path(tmp.name)
+        # run_tests.py refuses an existing --raw, so reserve a directory and
+        # hand it a path that does not exist yet.
+        workdir = Path(tempfile.mkdtemp(prefix="imu-"))
+        raw_path = workdir / "capture.raw"
 
     cmd = [sys.executable, str(RUNNER), "--port", port,
            "--expect-sources", ",".join(str(s) for s in expected),
@@ -298,17 +303,22 @@ def run_stage(stage: str, port: str | None, keep: str | None) -> int:
     print(f"$ {' '.join(cmd)}")
     print("烧录并运行健康测试，约 20 秒…", flush=True)
     proc = subprocess.run(cmd, cwd=PROJECT, text=True, capture_output=True)
-    text = proc.stdout + proc.stderr
+    # Parse the raw capture, not the runner's stdout: the runner decorates
+    # every line with "  | " so the record grammar no longer starts the line.
+    if raw_path.is_file() and raw_path.stat().st_size:
+        text = raw_path.read_text(encoding="utf-8", errors="replace")
+    else:
+        text = proc.stdout + proc.stderr
     cap = parse(text)
     print()
     if not cap.sources:
         print("没有解析到任何 UNIT_RESULT，运行器输出如下：")
-        print("\n".join(text.strip().splitlines()[-15:]))
+        print("\n".join((proc.stdout + proc.stderr).strip().splitlines()[-15:]))
     else:
         print(render(cap, set(expected)))
 
-    if tmp is not None:
-        raw_path.unlink(missing_ok=True)
+    if workdir is not None:
+        shutil.rmtree(workdir, ignore_errors=True)
     if not cap.sources:
         return 1
     return 0 if not diagnose(cap, set(expected)) and cap.complete else 1
@@ -337,18 +347,52 @@ def audit() -> int:
 
 
 HELP = """命令
-  run 2|6|11          烧录并跑对应阶段
-  analyze FILE [2|6|11]  离线重放一份捕获
-  audit               跑离线测试
-  help                显示本帮助
-  quit                退出"""
+  run 2        2 源：sid 0,1
+  run 6        6 源：sid 0,1,2,3,4,7
+  run 11       11 源：sid 0 到 10
+  run 6 文件名  同上，但把原始输出另存一份，之后可以离线再看
+  analyze 文件名 [2|6|11]   离线看一份保存过的结果，不需要接板子
+  audit        检查工具本身是否正常（不需要硬件）
+  help         显示这份说明
+  quit         退出
+
+跑完怎么看
+  屏幕上先是一张表，每个源一行：PASS 正常，ABSENT 没找到，FAIL 找到了但没通过。
+  表下面是「判断与下一步」，每一行都写明该用万用表查哪根线，从上往下查。
+
+常见情况
+  · 显示「没有找到 Espressif 串口」→ 板子没插好，或者 USB 线只供电不传数据
+  · 停在「烧录并运行健康测试」不动 → 正常，烧录大约 20 秒
+  · 某路读回 0x00 → 那一颗模块的 SDO 或供电没接上
+  · 某路读回 0xFF → 这一路的 CS 没接到门（/OE）"""
+
+
+def banner() -> str:
+    try:
+        port = find_port()
+        port_line = f"串口：{port}"
+    except SystemExit:
+        port_line = "串口：未找到（板子没插？插好后再 run）"
+    return "\n".join([
+        "IMU 台架工具",
+        f"工程：{PROJECT}",
+        port_line,
+        f"镜像：{image_identity()}",
+        "",
+        "第一次用就按这个顺序：",
+        "  1. 断电接好线，再上电",
+        "  2. 输入 run 6 回车（这个阶段是 sid 0,1,2,3,4,7）",
+        "  3. 看最后的「判断与下一步」，照着上面的线去查",
+        "",
+        "输入 help 看全部命令，quit 退出。",
+    ])
 
 
 def repl() -> int:
-    print("IMU 台架工具。输入 help 看命令，quit 退出。")
+    print(banner())
     while True:
         try:
-            line = input("imu> ").strip()
+            line = input("\nimu> ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
             return 0
@@ -358,20 +402,29 @@ def repl() -> int:
         cmd = parts[0].lower()
         try:
             if cmd in ("quit", "exit", "q"):
+                print("再见。")
                 return 0
             if cmd == "help":
                 print(HELP)
-            elif cmd == "run" and len(parts) == 2 and parts[1] in STAGES:
-                run_stage(parts[1], None, None)
+            elif cmd == "run" and 2 <= len(parts) <= 3:
+                if parts[1] not in STAGES:
+                    print(f"阶段只能是 2、6 或 11，你说的是 {parts[1]!r}。输入 help 看说明。")
+                    continue
+                keep = parts[2] if len(parts) == 3 else None
+                print(f"开始跑 {parts[1]} 源阶段…")
+                code = run_stage(parts[1], None, keep)
+                print("\n本次结果：" + ("通过。" if code == 0 else "有未通过的源，见上面的判断。"))
             elif cmd == "analyze" and 2 <= len(parts) <= 3:
                 stage = parts[2] if len(parts) == 3 and parts[2] in STAGES else None
                 analyze_file(parts[1], stage)
             elif cmd == "audit":
                 audit()
             else:
-                print(HELP)
+                print(f"看不懂 {line!r}。输入 help 看可用命令。")
         except SystemExit as exc:
             print(exc)
+        except FileNotFoundError as exc:
+            print(f"打不开文件：{exc.filename}")
         except Exception as exc:  # keep the prompt alive on a bad command
             print(f"出错：{exc}")
 

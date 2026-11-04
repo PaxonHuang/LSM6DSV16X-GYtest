@@ -4,9 +4,13 @@ Each rule here was derived from a measurement on the bench, so these tests
 pin the mapping from a captured number to the wire a person should check.
 """
 import importlib.util
+from contextlib import redirect_stdout
+import io
 from pathlib import Path
+import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -164,6 +168,44 @@ class RenderTests(unittest.TestCase):
     def test_incomplete_capture_is_flagged(self):
         out = i.render(i.parse(capture(unit(0, "PASS", 34, 34, 0x70), done=False)), {0})
         self.assertIn("MATRIX_DONE", out)
+
+
+class RunTests(unittest.TestCase):
+    """`run` must read the capture file, not the runner's decorated stdout."""
+
+    def test_parses_the_capture_file_and_ignores_decorated_stdout(self):
+        text = capture(unit(0, "PASS", 34, 34, 0x70),
+                       unit(1, "PASS", 34, 34, 0x70),
+                       summary="present=2 absent=9 count=11")
+
+        def fake_run(cmd, **_):
+            raw = Path(cmd[cmd.index("--raw") + 1])
+            raw.write_text(text)
+            # what run_tests.py actually prints: every line prefixed
+            return subprocess.CompletedProcess(
+                cmd, 0, stdout="  | UNIT_RESULT 0 PASS 34/34 raw=0x70 ok\n", stderr="")
+
+        out = io.StringIO()
+        with patch.object(i.subprocess, "run", side_effect=fake_run), \
+                redirect_stdout(out):
+            code = i.run_stage("2", "/dev/fake", None)
+        self.assertEqual(code, 0)
+        shown = out.getvalue()
+        self.assertIn("  0  PASS", shown)
+        self.assertIn("  1  PASS", shown)
+        self.assertIn("全部通过", shown)
+
+    def test_missing_capture_surfaces_the_runner_output(self):
+        def fake_run(cmd, **_):
+            return subprocess.CompletedProcess(
+                cmd, 2, stdout="", stderr="idf.py: command not found\n")
+
+        out = io.StringIO()
+        with patch.object(i.subprocess, "run", side_effect=fake_run), \
+                redirect_stdout(out):
+            code = i.run_stage("2", "/dev/fake", None)
+        self.assertEqual(code, 1)
+        self.assertIn("idf.py: command not found", out.getvalue())
 
 
 if __name__ == "__main__":
