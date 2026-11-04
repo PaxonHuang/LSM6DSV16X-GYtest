@@ -25,8 +25,9 @@
 3. Swap the known-good sid0 module into the sid2 position: if it still reads
    `0x00` the wiring is at fault, if it answers the module was.
 
-Do not change the clock or the thresholds, and do not touch row 11 again — it
-is proven working.
+Then `tools/imu.py run 6` — it flashes, verifies, runs the stage and prints the
+verdict with the wire to check next. Do not change the clock or the thresholds,
+and do not touch row 11 again — it is proven working.
 
 ---
 
